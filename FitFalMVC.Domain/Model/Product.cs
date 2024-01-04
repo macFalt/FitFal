@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+
 using System.Threading.Tasks;
 
 namespace FitFalMVC.Domain.Model
@@ -12,13 +14,12 @@ namespace FitFalMVC.Domain.Model
 
         public string Name { get; set; }
 
+        public int NutritionalValueId { get; set; }
 
-        //public int TypeId { get; set; }
-
-        //public virtual Type Type { get; set; }
-
-
-
+        public NutritionalValues NutritionalValues { get; set; }
+        
+        public ICollection<Meal> Meals { get; set; }
+        
 
 
     }

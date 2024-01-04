@@ -10,7 +10,7 @@ namespace FitFalMVC.Domain.Model
     {
         public int Id { get; set; }
 
-        public int Id_Product { get; set; }
+        public int ProductId { get; set; }
 
         public int Calories { get; set; }
 
@@ -19,6 +19,8 @@ namespace FitFalMVC.Domain.Model
         public float Fat { get; set; }
 
         public float Carbohydrates { get; set; }
+
+        public Product Product { get; set; }
 
 
 

@@ -36,18 +36,26 @@ namespace FitFalMVC.Infrastructure.Repositories
 
         }
 
-        public IQueryable<Product> GetProductsByTypeId(int typeId) 
-        {
-            var products= _context.Products.Where(i=>i.TypeId==typeId);
-            return products;
-        }
-
         public Product GetProductById(int productId)
         {
             var product= _context.Products.FirstOrDefault(i=>i.Id==productId);
             return product;
         }
 
+        public List<Product> GetAllProduckt
+        {
+            var products=_context.Products.ToList();
+            return products;
+        }
+
+        public void UpdateProduct(Product updatingProduct)
+        {
+            var existingProduct=_context.Products.FirstOrDefault(i=>i.Id==updatingProduct.Id);
+            if (existingProduct=! null)
+            {
+                existingProduct.Name=updatingProduct.Name;
+            }
+        }
 
     }
 }
