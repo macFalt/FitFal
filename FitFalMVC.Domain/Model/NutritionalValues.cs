@@ -20,6 +20,8 @@ namespace FitFalMVC.Domain.Model
 
         public float Carbohydrates { get; set; }
 
+        public Product Product { get; set; }
+
 
 
     }

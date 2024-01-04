@@ -36,11 +36,11 @@ namespace FitFalMVC.Infrastructure.Repositories
 
         }
 
-        public IQueryable<Product> GetProductsByTypeId(int typeId) 
-        {
-            var products= _context.Products.Where(i=>i.TypeId==typeId);
-            return products;
-        }
+        //public IQueryable<Product> GetProductsByTypeId(int typeId) 
+        //{
+        //    var products= _context.Products.Where(i=>i.TypeId==typeId);
+        //    return products;
+        //}
 
         public Product GetProductById(int productId)
         {

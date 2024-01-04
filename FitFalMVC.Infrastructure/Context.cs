@@ -32,6 +32,39 @@ namespace FitFalMVC.Infrastructure
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Product>()
+                .HasOne(a => a.NutritionalValues).WithOne(b => b.Product)
+                .HasForeignKey<NutritionalValues>(e => e.Id_Product);
+
+
+            builder.Entity<Meal_Product>()
+                .HasOne(mp=>mp.Meal)
+                .WithMany(m=>m.Meal_Products)
+                .HasForeignKey(mp=>mp.Id_Meal);
+
+            builder.Entity<Meal_Product>()
+                .HasOne(mp => mp.Product)
+                .WithMany(m => m.Meal_Products)
+                .HasForeignKey(mp => mp.Id_Product);
+
+            builder.Entity<DayOfEating>()
+                .HasMany(m => m.Meals)
+                .WithOne(d => d.DayOfEating)
+                .HasForeignKey(m => m.Id_DayOfEating);
+
+
+
+
+    
+
+
+
+
+
+
+
+
             //Jeden do jeden
             //builder.Entity<Customer>()
             //    .HasOne(a=> a.CustomerContactInformation).WithOne(b=>b.Customer) // jeden CustomerContactInformation bedzie mial powiazanie z jednym Customerem

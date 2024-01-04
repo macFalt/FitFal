@@ -17,5 +17,14 @@ namespace FitFalMVC.Domain.Model
         public float Grammage { get; set; }
 
         public int Calories { get; set; }
+
+        public Meal Meal { get; set; }
+
+        public Product Product { get; set; }
+
+        public ICollection<DayOfEating> DayOfEatings { get; set; }
+
+
+        //public ICollection<Meal> Meals { get; set; }
     }
 }

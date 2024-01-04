@@ -15,6 +15,12 @@ namespace FitFalMVC.Domain.Model
 
         public int Id_Meal { get; set; }
 
+        public Meal Meal { get; set; }
+
+        public ICollection<Meal> Meals { get; set; }
+
+
+
 
 
     }
