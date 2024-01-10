@@ -19,4 +19,8 @@
     <ProjectReference Include="..\FitFalMVC.Infrastructure\FitFalMVC.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="appsettings.json" />
+  </ItemGroup>
+
 </Project>

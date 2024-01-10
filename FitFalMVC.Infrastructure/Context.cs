@@ -12,6 +12,10 @@ namespace FitFalMVC.Infrastructure
 {
     public class Context : IdentityDbContext
     {
+
+     
+
+
         public DbSet<Product> Products  { get; set; }
         public DbSet<BodyPart> BodyParts { get; set; }
         public DbSet<DayOfEating> DayOfEatings { get; set; }
@@ -25,9 +29,11 @@ namespace FitFalMVC.Infrastructure
         public DbSet<Domain.Model.Type> Types { get; set; }
 
 
-        public Context(DbContextOptions options) : base(options)
+        public Context(DbContextOptions<Context> options) : base(options)
         {            
         }
+
+  
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -51,7 +57,8 @@ namespace FitFalMVC.Infrastructure
             builder.Entity<DayOfEating>()
                 .HasMany(m => m.Meals)
                 .WithOne(d => d.DayOfEating)
-                .HasForeignKey(m => m.Id_DayOfEating);
+                .HasForeignKey(m => m.Id_DayOfEating)
+                .OnDelete(DeleteBehavior.NoAction);
 
 
 
