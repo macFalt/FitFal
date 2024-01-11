@@ -13,7 +13,7 @@ namespace FitFalMVC.Domain.Model
 
         public DateTime Data { get; set; }
 
-        public int Id_Meal { get; set; }
+        public int MealId { get; set; }
 
         public Meal Meal { get; set; }
 

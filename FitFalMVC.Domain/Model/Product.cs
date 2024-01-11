@@ -12,19 +12,12 @@ namespace FitFalMVC.Domain.Model
 
         public string Name { get; set; }
 
-        public int Id_NutritionalValue { get; set; }
+        public int NutritionalValueId { get; set; }
 
         public NutritionalValues NutritionalValues { get; set; }
-
-        public ICollection<Meal_Product> Meal_Products { get; set; }
-
-
-        //public int TypeId { get; set; }
-
-        //public virtual Type Type { get; set; }
-
-
-
+        
+        public ICollection<Meal> Meals { get; set; }
+        
 
 
     }

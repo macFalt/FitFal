@@ -10,7 +10,7 @@ namespace FitFalMVC.Domain.Model
     {
         public int Id { get; set; }
 
-        public int Id_Product { get; set; }
+        public int ProductId { get; set; }
 
         public int Calories { get; set; }
 
