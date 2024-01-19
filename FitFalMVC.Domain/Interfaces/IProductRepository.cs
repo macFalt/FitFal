@@ -16,7 +16,7 @@ namespace FitFalMVC.Domain.Interfaces
         int AddProduct(Product product);
 
 
-        //IQueryable<Product> GetProductsByTypeId(int typeId);
+        IQueryable<Product> GetProductsByTypeId(int typeId);
  
 
         Product GetProductById(int productId);

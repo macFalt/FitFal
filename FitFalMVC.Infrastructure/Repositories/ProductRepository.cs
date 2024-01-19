@@ -42,6 +42,20 @@ namespace FitFalMVC.Infrastructure.Repositories
             return product;
         }
 
+        public List<Product> GetAllProduckt
+        {
+            var products=_context.Products.ToList();
+            return products;
+        }
+
+        public void UpdateProduct(Product updatingProduct)
+        {
+            var existingProduct=_context.Products.FirstOrDefault(i=>i.Id==updatingProduct.Id);
+            if (existingProduct=! null)
+            {
+                existingProduct.Name=updatingProduct.Name;
+            }
+        }
 
     }
 }
