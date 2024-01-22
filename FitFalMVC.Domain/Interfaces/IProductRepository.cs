@@ -10,16 +10,14 @@ namespace FitFalMVC.Domain.Interfaces
     public interface IProductRepository
     {
         void DeleteProduct(int productId);
-
-
-
+        
         int AddProduct(Product product);
-
-
-        IQueryable<Product> GetProductsByTypeId(int typeId);
- 
-
+        
         Product GetProductById(int productId);
 
+        IQueryable<Product> GetAllProduct();
+        
+        void UpdateProduct(Product updatingProduct);
+        
     }
 }

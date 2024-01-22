@@ -1,16 +1,23 @@
 //
 //
 //
-// Nastepna Modul 7 Lekcja 9 02.01.2024
+// M8L5 4:22
 //
-//jjjuyjujtuj
+//
 //
 
 
-
+using FitFalMVC.Application.Interfaces;
+using FitFalMVC.Application.Services;
+using FitFalMVC.Application.ViewModels;
+using FitFalMVC.Domain.Interfaces;
+using FitFalMVC.Domain.Model;
 using FitFalMVC.Infrastructure;
+using FitFalMVC.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using FitFalMVC.Application.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +29,16 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<Context>();
+
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IProductService, ProductService>();
+
+
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

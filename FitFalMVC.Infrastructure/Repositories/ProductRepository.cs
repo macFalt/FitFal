@@ -35,23 +35,23 @@ namespace FitFalMVC.Infrastructure.Repositories
             return product.Id;
 
         }
-
+        
         public Product GetProductById(int productId)
         {
             var product= _context.Products.FirstOrDefault(i=>i.Id==productId);
             return product;
         }
 
-        public List<Product> GetAllProduckt
+        public IQueryable<Product> GetAllProduct()
         {
-            var products=_context.Products.ToList();
+            var products=_context.Products.AsQueryable();
             return products;
         }
 
         public void UpdateProduct(Product updatingProduct)
         {
             var existingProduct=_context.Products.FirstOrDefault(i=>i.Id==updatingProduct.Id);
-            if (existingProduct=! null)
+            if (existingProduct != null)
             {
                 existingProduct.Name=updatingProduct.Name;
             }
