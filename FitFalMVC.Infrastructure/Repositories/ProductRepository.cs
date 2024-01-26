@@ -42,19 +42,23 @@ namespace FitFalMVC.Infrastructure.Repositories
             return product;
         }
 
+        public NutritionalValues GetDetails(int nutritionalValueId)
+        {
+            var nv = _context.NutritionalValues.FirstOrDefault(n => n.Id==nutritionalValueId);
+            return nv;
+        }
+
         public IQueryable<Product> GetAllProduct()
         {
             var products=_context.Products.AsQueryable();
             return products;
         }
 
-        public void UpdateProduct(Product updatingProduct)
+        public void UpdateProduct(Product product)
         {
-            var existingProduct=_context.Products.FirstOrDefault(i=>i.Id==updatingProduct.Id);
-            if (existingProduct != null)
-            {
-                existingProduct.Name=updatingProduct.Name;
-            }
+            _context.Attach(product);
+            _context.Entry(product).Property("Name").IsModified = true;
+            _context.SaveChanges();
         }
 
     }

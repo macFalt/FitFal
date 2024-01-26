@@ -1,7 +1,7 @@
 //
 //
 //
-// M8L5 4:22
+// edycja zaczac od 6min
 //
 //
 //
@@ -18,6 +18,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using FitFalMVC.Application.Mapping;
+using FitFalMVC.Application.ViewModels.ProductVmDirector;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,14 +36,17 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IProductService, ProductService>();
 
 
 
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddFluentValidation();
+builder.Services.AddRazorPages();
 
+builder.Services.AddTransient<IValidator<NewProductVm>, NewProductVm.NewProductValidator>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

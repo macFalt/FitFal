@@ -16,20 +16,15 @@ public class MappingProfile : Profile
             .Where(t => t.GetInterfaces().Any(i =>
                 i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IMapFrom<>)))
             .ToList();
-        /*foreach (var type     in types)
+        foreach (var type     in types)
         {
             var instance = Activator.CreateInstance(type);
             var methodInfo = type.GetMethod("ConfigureMapping");
+            methodInfo?.Invoke(instance, new object[] { this });
+
         }
-        */
-        foreach (var type in types)
-        {
-            var instance = Activator.CreateInstance(type);
-            if (instance is IMapFrom<object> mapping)
-            {
-                mapping.ConfigureMapping(this);
-            }
-        }
+        
+ 
     }
     
 }

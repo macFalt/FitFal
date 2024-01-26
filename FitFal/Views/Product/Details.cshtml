@@ -1,0 +1,65 @@
+@using FitFalMVC.Application.ViewModels.ProductVmDirector
+@model FitFalMVC.Application.ViewModels.ProductVmDirector.NutritionalValuesVM
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+
+<p>
+    <a asp-action="Create">Create new</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Calories
+        </th>
+        <th>
+            Protein
+        </th>
+        <th>
+            Fat
+        </th>
+        <th>
+            Carbohydrates
+        </th>
+        
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            <td>
+                @Html.DisplayFor(modelNv=>modelNv.Id)
+            </td>
+        
+            <td>
+                @Html.DisplayFor(modelNv=>modelNv.Calories)
+            </td>
+            <td>
+                @Html.DisplayFor(modelNv=>modelNv.Protein)
+            </td>
+            <td>
+                @Html.DisplayFor(modelNv=>modelNv.Fat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelNv=>modelNv.Carbohydrates)
+            </td>
+            
+            <td>
+            @*Html.ActionLink("Edit","Edit",new {mo=.Id})|
+                @Html.ActionLink("Delete","Delete",new {id=nv.Id})
+            *@
+            </td>
+        </tr>
+    
+    </tbody>
+</table>

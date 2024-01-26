@@ -18,6 +18,9 @@ namespace FitFalMVC.Domain.Interfaces
         IQueryable<Product> GetAllProduct();
         
         void UpdateProduct(Product updatingProduct);
-        
+
+         NutritionalValues GetDetails(int nutritionalValueId);
+
+
     }
 }

@@ -23,4 +23,12 @@
     <None Include="appsettings.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Views\Product\Index.cshtml" />
+  </ItemGroup>
+
 </Project>

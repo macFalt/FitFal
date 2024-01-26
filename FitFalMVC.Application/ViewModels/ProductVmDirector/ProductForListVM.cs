@@ -4,14 +4,16 @@ using FitFalMVC.Domain.Model;
 
 namespace FitFalMVC.Application.ViewModels.ProductVmDirector;
 
-public class ProductForListVM : IMapFrom<Product>
+public class ProductForListVM : IMapFrom<FitFalMVC.Domain.Model.Product>
 {
     public int Id { get; set; }
     public string Name { get; set; }
 
+    
     public void ConfigureMapping(Profile profile)
     {
-        profile.CreateMap<Product, ProductForListVM>(); //w nawiasach pierwsze to zrodlo drugie to destynacja. Jesli mamy te same nazwy to nie trzeba pisac .ForMember
+        profile.CreateMap<FitFalMVC.Domain.Model.Product, FitFalMVC.Application.ViewModels.ProductVmDirector.ProductForListVM>(); //w nawiasach pierwsze to zrodlo drugie to destynacja. Jesli mamy te same nazwy to nie trzeba pisac .ForMember
+        
         /*
         .ForMember(d => d.Id,
             opt => opt.MapFrom(

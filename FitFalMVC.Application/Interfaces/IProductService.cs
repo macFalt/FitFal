@@ -4,12 +4,16 @@ namespace FitFalMVC.Application.Interfaces;
 
 public interface IProductService
 {
-    ListProductForListVM GetAllProductForList();
+    ListProductForListVM GetAllProductForList(int pageSize,int pageNO,string searchString);
 
     int AddProduct(NewProductVm product);
 
     ProductDetailVm GetProductById(int customerId);
 
+    NutritionalValuesVM GetDetails(int productId);
 
 
+    NewProductVm GetproductForEdit(int id);
+    void UpdateProduct(NewProductVm model);
+    void DeleteProduct(int id);
 }
