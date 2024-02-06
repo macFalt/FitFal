@@ -13,10 +13,13 @@ namespace FitFalMVC.Domain.Model
         public int Id { get; set; }
         public string Name { get; set; }
         
+        public int Calories { get; set; }
 
-        public int NutritionalValueId { get; set; }
+        public float Protein { get; set; }
 
-        public NutritionalValues NutritionalValues { get; set; }
+        public float Fat { get; set; }
+
+        public float Carbohydrates { get; set; }
         
         public ICollection<Meal> Meals { get; set; }
         

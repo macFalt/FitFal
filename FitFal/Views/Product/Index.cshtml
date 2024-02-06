@@ -1,14 +1,14 @@
 @model FitFalMVC.Application.ViewModels.ProductVmDirector.ListProductForListVM
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Baza produktów";
     Layout = "_Layout";
 }
 
-<h1>title</h1>
+<h1>Baza produktów</h1>
 
 <p>
-    <a asp-action="AddProduct">Create new</a>
+    <a asp-action="AddProduct">Stwórz nowy produkt</a>
 </p>
 <form asp-action="Index" asp-controller="Product" method="post">
     <div class="row">
@@ -19,11 +19,11 @@
         <table class="table">
             <thead>
             <tr>
+                @* <th> *@
+                @*     Id *@
+                @* </th> *@
                 <th>
-                    Id
-                </th>
-                <th>
-                    Name
+                    Nazwa
                 </th>
                 <th></th>
             </tr>
@@ -32,17 +32,17 @@
             @foreach (var product in Model.Products)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelProduct=>product.Id)
-                    </td>
+                    @* <td> *@
+                    @*     @Html.DisplayFor(modelProduct=>product.Id) *@
+                    @* </td> *@
         
                     <td>
                         @Html.DisplayFor(modelProduct=>product.Name)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit","EditProduct",new {id=product.Id})|
-                        @Html.ActionLink("Details","Details",new {id=product.Id})|
-                        @Html.ActionLink("Delete","Delete",new {id=product.Id})
+                        @Html.ActionLink("Edytuj","EditProduct",new {id=product.Id})|
+                        @Html.ActionLink("Szczegóły","Details",new {id=product.Id})|
+                        @Html.ActionLink("Usuń","Delete",new {id=product.Id})
                     </td>
                 </tr>
             }

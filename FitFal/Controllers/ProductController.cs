@@ -65,7 +65,6 @@ public class ProductController : Controller
         }
         
         var id = _productService.AddProduct(model);
-        
         return RedirectToAction("Index");
     }
     

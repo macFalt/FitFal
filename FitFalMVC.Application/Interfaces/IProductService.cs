@@ -10,7 +10,7 @@ public interface IProductService
 
     ProductDetailVm GetProductById(int customerId);
 
-    NutritionalValuesVM GetDetails(int productId);
+    ProductDetailVm GetDetails(int productId);
 
 
     NewProductVm GetproductForEdit(int id);

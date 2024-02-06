@@ -42,9 +42,9 @@ namespace FitFalMVC.Infrastructure.Repositories
             return product;
         }
 
-        public NutritionalValues GetDetails(int nutritionalValueId)
+        public Product GetDetails(int nutritionalValueId)
         {
-            var nv = _context.NutritionalValues.FirstOrDefault(n => n.Id==nutritionalValueId);
+            var nv = _context.Products.FirstOrDefault(n => n.Id==nutritionalValueId);
             return nv;
         }
 
@@ -58,6 +58,10 @@ namespace FitFalMVC.Infrastructure.Repositories
         {
             _context.Attach(product);
             _context.Entry(product).Property("Name").IsModified = true;
+            _context.Entry(product).Property("Calories").IsModified = true;
+            _context.Entry(product).Property("Protein").IsModified = true;
+            _context.Entry(product).Property("Fat").IsModified = true;
+            _context.Entry(product).Property("Carbohydrates").IsModified = true;
             _context.SaveChanges();
         }
 

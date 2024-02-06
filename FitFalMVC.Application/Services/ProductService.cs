@@ -19,11 +19,11 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
-    public NutritionalValuesVM GetDetails(int nvId)
+    public ProductDetailVm GetDetails(int productId)
     {
-        var nutritionalValue = _productRepo.GetDetails(nvId);
-        var nutritionalValueVm = _mapper.Map<NutritionalValuesVM>(nutritionalValue);
-        return nutritionalValueVm;
+        var product = _productRepo.GetDetails(productId);
+        var productVm = _mapper.Map<ProductDetailVm>(product);
+        return productVm;
     }
 
     public NewProductVm GetproductForEdit(int id)
@@ -35,8 +35,8 @@ public class ProductService : IProductService
 
     public void UpdateProduct(NewProductVm model)
     {
-        var customer = _mapper.Map<Product>(model);
-        _productRepo.UpdateProduct(customer);
+        var product = _mapper.Map<Product>(model);
+        _productRepo.UpdateProduct(product);
     }
 
     public void DeleteProduct(int id)
@@ -62,24 +62,7 @@ public class ProductService : IProductService
 
         return productsList;
         
-
-/*
-        var products = _productRepo.GetAllProduct();
-        ListProductForListVM result = new ListProductForListVM();
-        result.Products = new List<ProductForListVM>();
-        foreach (var product in products)
-        {
-            var proVm = new ProductForListVM()
-            {
-                Id = product.Id,
-                Name = product.Name
-            };
-            result.Products.Add(proVm);
-        }
-
-        result.Count = result.Products.Count;
-        return result;
-  */      
+        
     }
 
     public int AddProduct(NewProductVm product)

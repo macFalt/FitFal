@@ -19,7 +19,7 @@ namespace FitFalMVC.Infrastructure
         public DbSet<Product> Products  { get; set; }
         public DbSet<DayOfEating> DayOfEatings { get; set; }
         public DbSet<Meal> Meals { get; set; }
-        public DbSet<NutritionalValues> NutritionalValues { get; set; }
+
 
 
 

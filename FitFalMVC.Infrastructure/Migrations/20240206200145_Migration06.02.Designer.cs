@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitFalMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240111203049_Migration11_01")]
-    partial class Migration11_01
+    [Migration("20240206200145_Migration06.02")]
+    partial class Migration0602
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace FitFalMVC.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("DayOfEatingMeal", b =>
+                {
+                    b.Property<int>("DayOfEatingsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MealsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DayOfEatingsId", "MealsId");
+
+                    b.HasIndex("MealsId");
+
+                    b.ToTable("DayOfEatingMeal");
+                });
 
             modelBuilder.Entity("FitFalMVC.Domain.Model.DayOfEating", b =>
                 {
@@ -36,12 +51,11 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MealId")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MealId");
 
                     b.ToTable("DayOfEatings");
                 });
@@ -54,21 +68,16 @@ namespace FitFalMVC.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("DayOfEatingId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DayOfEatingId");
-
                     b.ToTable("Meals");
                 });
 
-            modelBuilder.Entity("FitFalMVC.Domain.Model.NutritionalValues", b =>
+            modelBuilder.Entity("FitFalMVC.Domain.Model.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,34 +94,12 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.Property<float>("Fat")
                         .HasColumnType("real");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Protein")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId")
-                        .IsUnique();
-
-                    b.ToTable("NutritionalValues");
-                });
-
-            modelBuilder.Entity("FitFalMVC.Domain.Model.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NutritionalValueId")
-                        .HasColumnType("int");
+                    b.Property<float>("Protein")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -332,33 +319,19 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FitFalMVC.Domain.Model.DayOfEating", b =>
-                {
-                    b.HasOne("FitFalMVC.Domain.Model.Meal", "Meal")
-                        .WithMany()
-                        .HasForeignKey("MealId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Meal");
-                });
-
-            modelBuilder.Entity("FitFalMVC.Domain.Model.Meal", b =>
+            modelBuilder.Entity("DayOfEatingMeal", b =>
                 {
                     b.HasOne("FitFalMVC.Domain.Model.DayOfEating", null)
-                        .WithMany("Meals")
-                        .HasForeignKey("DayOfEatingId");
-                });
-
-            modelBuilder.Entity("FitFalMVC.Domain.Model.NutritionalValues", b =>
-                {
-                    b.HasOne("FitFalMVC.Domain.Model.Product", "Product")
-                        .WithOne("NutritionalValues")
-                        .HasForeignKey("FitFalMVC.Domain.Model.NutritionalValues", "ProductId")
+                        .WithMany()
+                        .HasForeignKey("DayOfEatingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.HasOne("FitFalMVC.Domain.Model.Meal", null)
+                        .WithMany()
+                        .HasForeignKey("MealsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MealProduct", b =>
@@ -424,17 +397,6 @@ namespace FitFalMVC.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FitFalMVC.Domain.Model.DayOfEating", b =>
-                {
-                    b.Navigation("Meals");
-                });
-
-            modelBuilder.Entity("FitFalMVC.Domain.Model.Product", b =>
-                {
-                    b.Navigation("NutritionalValues")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

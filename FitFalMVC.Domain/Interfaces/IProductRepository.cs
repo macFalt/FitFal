@@ -19,7 +19,7 @@ namespace FitFalMVC.Domain.Interfaces
         
         void UpdateProduct(Product updatingProduct);
 
-         NutritionalValues GetDetails(int nutritionalValueId);
+         Product GetDetails(int productId);
 
 
     }

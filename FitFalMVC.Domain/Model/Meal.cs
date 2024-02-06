@@ -13,5 +13,8 @@ namespace FitFalMVC.Domain.Model
         public string Name { get; set; }
 
         public ICollection<Product> Products { get; set; }
+        
+        public ICollection<DayOfEating> DayOfEatings { get; set; }
+        
     }
 }

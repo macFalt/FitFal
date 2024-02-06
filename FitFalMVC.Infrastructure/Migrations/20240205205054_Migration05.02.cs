@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FitFalMVC.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Migration11_01 : Migration
+    public partial class Migration0502 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -57,7 +57,10 @@ namespace FitFalMVC.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NutritionalValueId = table.Column<int>(type: "int", nullable: false)
+                    Calories = table.Column<int>(type: "int", nullable: false),
+                    Protein = table.Column<float>(type: "real", nullable: false),
+                    Fat = table.Column<float>(type: "real", nullable: false),
+                    Carbohydrates = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -171,34 +174,12 @@ namespace FitFalMVC.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NutritionalValues",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Calories = table.Column<int>(type: "int", nullable: false),
-                    Protein = table.Column<float>(type: "real", nullable: false),
-                    Fat = table.Column<float>(type: "real", nullable: false),
-                    Carbohydrates = table.Column<float>(type: "real", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NutritionalValues", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_NutritionalValues_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DayOfEatings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Data = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MealId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -304,12 +285,6 @@ namespace FitFalMVC.Infrastructure.Migrations
                 table: "Meals",
                 column: "DayOfEatingId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_NutritionalValues_ProductId",
-                table: "NutritionalValues",
-                column: "ProductId",
-                unique: true);
-
             migrationBuilder.AddForeignKey(
                 name: "FK_DayOfEatings_Meals_MealId",
                 table: "DayOfEatings",
@@ -343,9 +318,6 @@ namespace FitFalMVC.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "MealProduct");
-
-            migrationBuilder.DropTable(
-                name: "NutritionalValues");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

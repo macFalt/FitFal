@@ -11,6 +11,14 @@ public class NewProductVm : IMapFrom<FitFalMVC.Domain.Model.Product>
     [DisplayName("Nazwa")]
     public string Name { get; set; }
     
+    public int Calories { get; set; }
+
+    public float Protein { get; set; }
+
+    public float Fat { get; set; }
+
+    public float Carbohydrates { get; set; }
+    
     public void ConfigureMapping(Profile profile)
     {
         profile.CreateMap<FitFalMVC.Application.ViewModels.ProductVmDirector.NewProductVm,FitFalMVC.Domain.Model.Product>().ReverseMap();
@@ -20,7 +28,7 @@ public class NewProductVm : IMapFrom<FitFalMVC.Domain.Model.Product>
     {
         public NewProductValidator()
         {
-            RuleFor(x => x.Name).MaximumLength(5);
+            // RuleFor(x => x.Name).MaximumLength(5);
         }
     }
     
