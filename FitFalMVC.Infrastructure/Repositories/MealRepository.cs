@@ -1,5 +1,6 @@
 using FitFalMVC.Domain.Interfaces;
 using FitFalMVC.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitFalMVC.Infrastructure.Repositories;
 
@@ -12,28 +13,30 @@ public class MealRepository : IMealRepository
         _context = context;
     }
     
-    public Meal GetDetails(int mealId)
+
+
+    public IQueryable<Meal> GetAllMeals()
     {
-        throw new NotImplementedException();
+        return _context.Meals.AsQueryable();
     }
 
-    public Meal GetMealById(int id)
+    
+    public int AddProductTo(int productId, int mealId)
     {
-        throw new NotImplementedException();
-    }
+        var product = _context.Products.Find(productId);
+        var meal = _context.Meals.Find(mealId);
 
-    public void UpdateMeal(Meal meal)
-    {
-        throw new NotImplementedException();
-    }
+        if (product != null && meal != null)
+        {
 
-    public void DeleteProductInMeal(int productId)
-    {
-        throw new NotImplementedException();
-    }
+            meal.Products.Add(product);
+            _context.SaveChanges();
+            return meal.Id;
+        }
 
-    public int AddProductInMeal(Product product)
-    {
-        throw new NotImplementedException();
+        return -1;
+
     }
+    
+
 }

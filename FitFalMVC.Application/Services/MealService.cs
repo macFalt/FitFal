@@ -1,11 +1,13 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using FitFalMVC.Application.Interfaces;
 using FitFalMVC.Application.ViewModels.MealVmDirector;
 using FitFalMVC.Domain.Interfaces;
 using FitFalMVC.Domain.Model;
 
 namespace FitFalMVC.Application.Services;
 
-public class MealService
+public class MealService : IMealService
 {
     
     private readonly IMealRepository _mealRepo;
@@ -16,38 +18,28 @@ public class MealService
         _mealRepo = mealRepo;
         _mapper = mapper;
     }
+    
 
-    public MealDetailVm GetDetails(int mealId)
+    public int AddProductMeal(int productId, int mealId)
     {
-        var meal = _mealRepo.GetDetails(mealId);
-        var mealVm = _mapper.Map<MealDetailVm>(meal);
-        return mealVm;
-    }
-
-    public NewProductInMealVm GetMealForEdit(int id)
-    {
-        var meal = _mealRepo.GetMealById(id);
-        var mealVm = _mapper.Map<NewProductInMealVm>(meal);
-        return mealVm;
-    }
-
-    public void UpdateProduct(NewProductInMealVm model)
-    {
-        var meal = _mapper.Map<Meal>(model);
-        _mealRepo.UpdateMeal(meal);
-    }
-
-    public void DeleteProduct(int id)
-    {
-        _mealRepo.DeleteProductInMeal(id);
+        return _mealRepo.AddProductTo(productId, mealId);
     }
     
 
-    public int AddProduct(NewProductInMealVm meal)
+    
+    public ListMealsForListVm GetAllMealsForList()
     {
-        var m = _mapper.Map<Product>(meal);
-        var id = _mealRepo.AddProductInMeal(m);
-        return id;
+        var mealsFromDb = _mealRepo.GetAllMeals()
+            .ProjectTo<FitFalMVC.Application.ViewModels.MealVmDirector.MealForListVm>(_mapper.ConfigurationProvider)
+            .ToList();
+
+        var mealList = new ListMealsForListVm()
+        {
+            Meals = mealsFromDb,
+        };
+
+        return mealList;
+        
         
     }
     

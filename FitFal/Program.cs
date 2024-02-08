@@ -39,7 +39,8 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IProductService, ProductService>();
-
+builder.Services.AddTransient<IMealRepository, MealRepository>();
+builder.Services.AddTransient<IMealService, MealService>();
 
 
 
