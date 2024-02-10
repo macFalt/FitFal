@@ -1,4 +1,8 @@
+
+@using FitFalMVC.Domain.Model
+@using FitFalMVC.Application.ViewModels.MealVmDirector
 @model FitFalMVC.Application.ViewModels.MealVmDirector.ListMealsForListVm
+
 
 @{
     ViewBag.Title = "Lista posiłków";
@@ -7,42 +11,55 @@
 
 <h1>Lista posiłków</h1>
 
-
-
 <form asp-action="Index" asp-controller="Meal" method="post">
-
     <div class="row">
         <table class="table">
             <thead>
-            <tr>
-                <th>
-                    Nazwa
-                </th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>
+                        Nazwa
+                    </th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            @foreach (var meal in Model.Meals)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelProduct=>meal.Name)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Dodaj produkt", "ListOfProduct", new { mealId = meal.Id })
-                        @Html.ActionLink("Szczegóły posiłku", "Details", new { mealId = meal.Id })
-
-
-
-                    </td>
-                </tr>
-            }
+                @foreach (var meal in Model.Meals)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelProduct => meal.Name)
+                        </td>
+                        <td>
+                            <details>
+                                <summary>Produkty w posiłku</summary>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nazwa</th>
+                                            <th>Kalorie</th>
+                                            <th>Białko</th>
+                                            <th>Tłuszcz</th>
+                                            <th>Węglowodany</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var product in ListProductsInMealVm.Products)
+                                        {
+                                            <tr>
+                                                <td>@Html.DisplayFor(modelProduct => product.Name)</td>
+                                                <td>@Html.DisplayFor(modelProduct => product.Calories)</td>
+                                                <td>@Html.DisplayFor(modelProduct => product.Protein)</td>
+                                                <td>@Html.DisplayFor(modelProduct => product.Fat)</td>
+                                                <td>@Html.DisplayFor(modelProduct => product.Carbohydrates)</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </details>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
-            
     </div>
-    
 </form>
-
-
-

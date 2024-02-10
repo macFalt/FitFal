@@ -41,9 +41,16 @@ public class MealRepository : IMealRepository
         return -1;
 
     }
-
-    public Meal GetDetails(int mealId)
+    
+    public Meal GetMealById(int mealId)
     {
-        var meal = _context.Meals.FirstOrDefault(n => n.Id==mealId);
-        return meal;    }
+        // var meal = _context.Meals.FirstOrDefault(n => n.Id==mealId);
+        // return meal;
+        
+        return _context.Meals
+            .Include(m => m.Products)
+            .FirstOrDefault(n => n.Id == mealId);
+
+    }
 }
+

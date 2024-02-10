@@ -1,6 +1,7 @@
 using FitFalMVC.Application.Interfaces;
 using FitFalMVC.Application.Services;
 using FitFalMVC.Application.ViewModels.ProductVmDirector;
+using FitFalMVC.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitFal.Controllers;
@@ -9,22 +10,23 @@ public class MealController : Controller
 {
     private readonly IMealService _mealService;
     private readonly IProductService _productService;
-    
-    public MealController(IMealService mealService,IProductService productService)
+
+    public MealController(IMealService mealService, IProductService productService)
     {
         _mealService = mealService;
         _productService = productService;
     }
+
     [HttpGet]
     public IActionResult Index()
     {
         var model = _mealService.GetAllMealsForList();
         return View(model);
-        
+
     }
 
-    
-    
+
+
     [HttpGet]
     public IActionResult AddProductToMeal(int productId, int mealId)
     {
@@ -43,12 +45,13 @@ public class MealController : Controller
     public IActionResult ListOfProduct(int mealId)
     {
         ViewBag.MealId = mealId;
-        var model = _productService.GetAllProductForList(2,1,"");
+        var model = _productService.GetAllProductForList(2, 1, "");
         return View(model);
-        
+
     }
+
     [HttpPost]
-    public IActionResult ListOfProduct(int pageSize,int? pageNo,string searchString, int mealId)
+    public IActionResult ListOfProduct(int pageSize, int? pageNo, string searchString, int mealId)
     {
         if (!pageNo.HasValue)
         {
@@ -57,16 +60,17 @@ public class MealController : Controller
 
         if (searchString is null)
         {
-            searchString=String.Empty;
+            searchString = String.Empty;
         }
-        var model = _productService.GetAllProductForList(pageSize,pageNo.Value,searchString);
+
+        var model = _productService.GetAllProductForList(pageSize, pageNo.Value, searchString);
         return View(model);
-        
+
     }
 
     public IActionResult Details(int mealid)
     {
-        var model = _mealService.GetDetails(mealid);
+        var model = _mealService.MapMealToProductsList(mealid);
         return View(model);
     }
 }

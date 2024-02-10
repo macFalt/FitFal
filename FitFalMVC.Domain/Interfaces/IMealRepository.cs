@@ -9,5 +9,7 @@ public interface IMealRepository
      int AddProductTo(int productId, int mealId);
 
 
-     Meal GetDetails(int mealId);
+
+
+     Meal GetMealById(int mealId);
 }

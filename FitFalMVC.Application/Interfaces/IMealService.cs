@@ -1,4 +1,5 @@
 using FitFalMVC.Application.ViewModels.MealVmDirector;
+using FitFalMVC.Domain.Model;
 
 namespace FitFalMVC.Application.Interfaces;
 
@@ -11,5 +12,6 @@ public interface IMealService
      ListMealsForListVm GetAllMealsForList();
 
 
-    MealDetailVm GetDetails(int mealid);
+
+    ListProductsInMealVm MapMealToProductsList(int meal);
 }

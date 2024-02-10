@@ -1,6 +1,6 @@
 @using FitFalMVC.Domain.Model
 @using FitFalMVC.Application.Services
-@model FitFalMVC.Application.ViewModels.MealVmDirector.MealDetailVm
+@model FitFalMVC.Application.ViewModels.MealVmDirector.ListProductsInMealVm
 
 @{
     ViewBag.Title = "title";
@@ -33,16 +33,27 @@
     </tr>
     </thead>
     <tbody>
+     @foreach (var product in Model.Products)
+                {
+                    <tr>
     
-        <tr>
-            <td>
-                
-                @Html.DisplayFor(modelMeal => modelMeal.Name)
-            </td>
-            
-            <td>
-            </td>
-        </tr>
-    
+                        <td>
+                            @Html.DisplayFor(modelProduct=>product.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelProduct=>product.Calories)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelProduct=>product.Protein)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelProduct=>product.Fat)
+                        </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelProduct=>product.Carbohydrates)
+                                                </td>
+
+                    </tr>
+                }
     </tbody>
 </table>

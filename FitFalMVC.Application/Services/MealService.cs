@@ -42,11 +42,21 @@ public class MealService : IMealService
         
         
     }
+    
 
-    public MealDetailVm GetDetails(int mealid)
+    public ListProductsInMealVm MapMealToProductsList(int mealId)
     {
-        var meal = _mealRepo.GetDetails(mealid);
-        var mealVm = _mapper.Map<MealDetailVm>(meal);
-        return mealVm;
+  
+
+        var meal = _mealRepo.GetMealById(mealId); 
+        var productsListVm = new ListProductsInMealVm
+        {
+            Products = _mapper.Map<List<MealDetailVm>>(meal.Products)
+        };
+
+        return productsListVm;
     }
+    
+    
+
 }
