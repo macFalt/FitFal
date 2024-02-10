@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitFalMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240206200145_Migration06.02")]
-    partial class Migration0602
+    [Migration("20240210032351_Migration10.02")]
+    partial class Migration1002
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

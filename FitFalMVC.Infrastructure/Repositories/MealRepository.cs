@@ -28,6 +28,10 @@ public class MealRepository : IMealRepository
 
         if (product != null && meal != null)
         {
+            if (meal.Products == null)
+            {
+                meal.Products = new List<Product>(); // Inicjalizacja kolekcji, jeśli jest null
+            }
 
             meal.Products.Add(product);
             _context.SaveChanges();
@@ -37,6 +41,9 @@ public class MealRepository : IMealRepository
         return -1;
 
     }
-    
 
+    public Meal GetDetails(int mealId)
+    {
+        var meal = _context.Meals.FirstOrDefault(n => n.Id==mealId);
+        return meal;    }
 }

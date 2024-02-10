@@ -8,10 +8,12 @@ namespace FitFal.Controllers;
 public class MealController : Controller
 {
     private readonly IMealService _mealService;
+    private readonly IProductService _productService;
     
-    public MealController(IMealService productService)
+    public MealController(IMealService mealService,IProductService productService)
     {
-        _mealService = productService;
+        _mealService = mealService;
+        _productService = productService;
     }
     [HttpGet]
     public IActionResult Index()
@@ -23,7 +25,7 @@ public class MealController : Controller
 
     
     
-    [HttpPost]
+    [HttpGet]
     public IActionResult AddProductToMeal(int productId, int mealId)
     {
         try
@@ -36,8 +38,36 @@ public class MealController : Controller
             return BadRequest(ex.Message);
         }
     }
-    
 
+    [HttpGet]
+    public IActionResult ListOfProduct(int mealId)
+    {
+        ViewBag.MealId = mealId;
+        var model = _productService.GetAllProductForList(2,1,"");
+        return View(model);
+        
+    }
+    [HttpPost]
+    public IActionResult ListOfProduct(int pageSize,int? pageNo,string searchString, int mealId)
+    {
+        if (!pageNo.HasValue)
+        {
+            pageNo = 1;
+        }
 
+        if (searchString is null)
+        {
+            searchString=String.Empty;
+        }
+        var model = _productService.GetAllProductForList(pageSize,pageNo.Value,searchString);
+        return View(model);
+        
+    }
+
+    public IActionResult Details(int mealid)
+    {
+        var model = _mealService.GetDetails(mealid);
+        return View(model);
+    }
 }
 

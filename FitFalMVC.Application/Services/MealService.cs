@@ -42,5 +42,11 @@ public class MealService : IMealService
         
         
     }
-    
+
+    public MealDetailVm GetDetails(int mealid)
+    {
+        var meal = _mealRepo.GetDetails(mealid);
+        var mealVm = _mapper.Map<MealDetailVm>(meal);
+        return mealVm;
+    }
 }

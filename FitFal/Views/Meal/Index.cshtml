@@ -1,11 +1,12 @@
 @model FitFalMVC.Application.ViewModels.MealVmDirector.ListMealsForListVm
 
 @{
-    ViewBag.Title = "Baza produktów";
+    ViewBag.Title = "Lista posiłków";
     Layout = "_Layout";
 }
 
-<h1>Baza produktów</h1>
+<h1>Lista posiłków</h1>
+
 
 
 <form asp-action="Index" asp-controller="Meal" method="post">
@@ -21,16 +22,18 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var product in Model.Meals)
+            @foreach (var meal in Model.Meals)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelProduct=>product.Name)
+                        @Html.DisplayFor(modelProduct=>meal.Name)
                     </td>
                     <td>
-                        @Html.ActionLink("Edytuj","EditMeal",new {id=product.Id})|
-                        @Html.ActionLink("Szczegóły","Details",new {id=product.Id})|
-                        @Html.ActionLink("Usuń","Delete",new {id=product.Id})
+                        @Html.ActionLink("Dodaj produkt", "ListOfProduct", new { mealId = meal.Id })
+                        @Html.ActionLink("Szczegóły posiłku", "Details", new { mealId = meal.Id })
+
+
+
                     </td>
                 </tr>
             }

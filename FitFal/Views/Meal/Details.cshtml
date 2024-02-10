@@ -1,0 +1,48 @@
+@using FitFalMVC.Domain.Model
+@using FitFalMVC.Application.Services
+@model FitFalMVC.Application.ViewModels.MealVmDirector.MealDetailVm
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Nazwa
+        </th>
+        <th>
+            Kalorie
+        </th>
+        <th>
+            Białko
+        </th>
+        <th>
+            Tłuszcz
+        </th>
+        <th>
+            Węglowodany
+        </th>
+        
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            <td>
+                
+                @Html.DisplayFor(modelMeal => modelMeal.Name)
+            </td>
+            
+            <td>
+            </td>
+        </tr>
+    
+    </tbody>
+</table>

@@ -11,4 +11,5 @@ public interface IMealService
      ListMealsForListVm GetAllMealsForList();
 
 
+    MealDetailVm GetDetails(int mealid);
 }
