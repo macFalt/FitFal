@@ -5,5 +5,6 @@ public class ListProductsInMealVm
 {
     public List<MealDetailVm> Products { get; set; }
     
+    // public List<MealForListVm> Meals { get; set; }
 
 }

@@ -22,10 +22,8 @@ public class MealController : Controller
     {
         var model = _mealService.GetAllMealsForList();
         return View(model);
-
     }
-
-
+    
 
     [HttpGet]
     public IActionResult AddProductToMeal(int productId, int mealId)
@@ -73,5 +71,7 @@ public class MealController : Controller
         var model = _mealService.MapMealToProductsList(mealid);
         return View(model);
     }
+    
+
 }
 

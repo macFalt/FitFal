@@ -54,8 +54,11 @@ public class MealService : IMealService
             Products = _mapper.Map<List<MealDetailVm>>(meal.Products)
         };
 
+
         return productsListVm;
     }
+  
+    
     
     
 
