@@ -18,9 +18,13 @@ public class MealController : Controller
     }
 
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index(bool showProducts = false)
     {
         var model = _mealService.GetAllMealsForList();
+        ViewBag.ShowProducts = showProducts;
+
+
+
         return View(model);
     }
     
@@ -51,6 +55,8 @@ public class MealController : Controller
     [HttpPost]
     public IActionResult ListOfProduct(int pageSize, int? pageNo, string searchString, int mealId)
     {
+        ViewBag.MealId = mealId;
+
         if (!pageNo.HasValue)
         {
             pageNo = 1;
@@ -66,11 +72,11 @@ public class MealController : Controller
 
     }
 
-    public IActionResult Details(int mealid)
-    {
-        var model = _mealService.MapMealToProductsList(mealid);
-        return View(model);
-    }
+    // public IActionResult Details(int mealid)
+    // {
+    //     var model = _mealService.MapMealToProductsList(mealid);
+    //     return View(model);
+    // }
     
 
 }

@@ -12,6 +12,7 @@ public class MealService : IMealService
     
     private readonly IMealRepository _mealRepo;
     private readonly IMapper _mapper;
+    private IMealService _mealServiceImplementation;
 
     public MealService(IMealRepository mealRepo,IMapper mapper)
     {
@@ -19,46 +20,47 @@ public class MealService : IMealService
         _mapper = mapper;
     }
     
-
     public int AddProductMeal(int productId, int mealId)
     {
         return _mealRepo.AddProductTo(productId, mealId);
     }
     
-
+    // public ListProductsInMealVm MapMealToProductsList(int mealId)
+    // {
+    //     var meal = _mealRepo.GetMealById(mealId); 
+    //     var productsListVm = new ListProductsInMealVm
+    //     {
+    //         Products = _mapper.Map<List<MealDetailVm>>(meal.Products)
+    //     };
+    //     return productsListVm;
+    // }
     
     public ListMealsForListVm GetAllMealsForList()
     {
         var mealsFromDb = _mealRepo.GetAllMeals()
             .ProjectTo<FitFalMVC.Application.ViewModels.MealVmDirector.MealForListVm>(_mapper.ConfigurationProvider)
             .ToList();
-
-        var mealList = new ListMealsForListVm()
+        
+        var combinedVm = new ListMealsForListVm()
         {
-            Meals = mealsFromDb,
+            Meals = new List<MealForListVm>(),
+            Products = new List<MealDetailVm>()
         };
 
-        return mealList;
-        
-        
-    }
-    
-
-    public ListProductsInMealVm MapMealToProductsList(int mealId)
-    {
-  
-
-        var meal = _mealRepo.GetMealById(mealId); 
-        var productsListVm = new ListProductsInMealVm
+        foreach (var meal in mealsFromDb)
         {
-            Products = _mapper.Map<List<MealDetailVm>>(meal.Products)
-        };
+            combinedVm.Meals.Add(meal);
 
+            var productsForMeal = meal.Products.Select(product => _mapper.Map<MealDetailVm>(product)).ToList();
+            combinedVm.Products.AddRange(productsForMeal);
+        }
 
-        return productsListVm;
+        return combinedVm;
     }
-  
-    
+
+
+
+
     
     
 

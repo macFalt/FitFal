@@ -42,12 +42,14 @@ public class MealRepository : IMealRepository
 
     }
     
-    public Meal GetMealById(int mealId)
-    {
-        return _context.Meals
-            .Include(m => m.Products)
-            .FirstOrDefault(n => n.Id == mealId);
+    // public Meal GetMealById(int mealId)
+    // {
+    //     return _context.Meals
+    //         .Include(m => m.Products)
+    //         .FirstOrDefault(n => n.Id == mealId);
+    //
+    // }
+    
 
-    }
 }
 

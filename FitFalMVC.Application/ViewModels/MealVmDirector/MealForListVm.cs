@@ -8,7 +8,7 @@ public class MealForListVm : IMapFrom<FitFalMVC.Domain.Model.Meal>
     public int Id { get; set; }
     
     public string Name { get; set; }
-
+    public List<MealDetailVm> Products { get; set; }
     
     public void ConfigureMapping(Profile profile)
     {
