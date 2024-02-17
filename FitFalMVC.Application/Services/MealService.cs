@@ -60,8 +60,29 @@ public class MealService : IMealService
 
 
 
+    public int AddNewDay(DayOfEatingForListVm newDayOfEatingVm )
+    {
 
+       var newDayOfEating = _mapper.Map<DayOfEating>(newDayOfEatingVm);
+
+       
+       
+        var id = _mealRepo.AddProduct(newDayOfEating);
+        
+        var mealsForDay = newDayOfEatingVm.Meals;
+        
+        foreach (var mealVm in mealsForDay)
+         {
+             var meal = _mapper.Map<MealForListVm, Meal>(mealVm);
+             
+             var mealId = _mealRepo.AddMealToDay(id);
+         }
+
+        return id;
+    }
+
+    
+    }
     
     
 
-}

@@ -7,6 +7,34 @@
 
 <h1>Baza produktów</h1>
 
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $(function () {
+
+            var today = new Date();
+            var formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
+            $("#dayofeatingId").val(formattedDate);
+
+
+            $(".datepicker").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
+}
+@using (Html.BeginForm("AddDayOfEating", "Meal", FormMethod.Post))
+{
+    <label for="datepicker">Wybierz datę:</label>
+    <input id="dayofeatingId" name="selectedDate" type="text" class="datepicker" />
+    <button type="submit">Stwórz jadłospis</button>
+}
+
+
+
+
+
 <form asp-action="Index" asp-controller="Meal" method="post">
     <div class="row">
         <table class="table">
@@ -54,10 +82,6 @@
                                         </tr>
                                     }
                                     </tbody>
-                                    <td>
-                                        @Html.ActionLink("Dodaj produkt", "ListOfProduct", new { mealId = meal.Id })
-                                    </td>
-                                    
                                 </table>
                             </details>
                         </td>

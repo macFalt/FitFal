@@ -65,6 +65,8 @@ public class ProductService : IProductService
         
     }
 
+
+
     public int AddProduct(NewProductVm product)
     {
         var prod = _mapper.Map<Product>(product);

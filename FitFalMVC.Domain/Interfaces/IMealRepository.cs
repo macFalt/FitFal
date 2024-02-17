@@ -13,4 +13,7 @@ public interface IMealRepository
 
      // Meal GetMealById(int mealId);
 
+
+     int AddProduct(DayOfEating day);
+     int AddMealToDay(int dayOfEatingId);
 }

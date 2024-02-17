@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using FitFalMVC.Application.Services;
+using FitFalMVC.Domain.Model;
 
 namespace FitFal.Controllers
 {
@@ -14,6 +15,7 @@ namespace FitFal.Controllers
             _logger = logger;
         }
 */
+        [HttpGet]
         public IActionResult Index()
         {
 
@@ -21,6 +23,8 @@ namespace FitFal.Controllers
             //return View(model);
             return View();
         }
+        
+
 /*
         [HttpGet]
         public IActionResult AddProduct()
@@ -53,5 +57,7 @@ namespace FitFal.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }

@@ -16,4 +16,5 @@ public interface IMealService
     // ListProductsInMealVm MapMealToProductsList(int meal);
 
 
+    int AddNewDay(DayOfEatingForListVm newDayOfEatingVm);
 }

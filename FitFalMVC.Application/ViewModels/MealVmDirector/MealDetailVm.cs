@@ -28,17 +28,10 @@ public class MealDetailVm :IMapFrom<FitFalMVC.Domain.Model.Meal>
     {
         profile.CreateMap<FitFalMVC.Domain.Model.Meal, FitFalMVC.Application.ViewModels.MealVmDirector.MealDetailVm>()
             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
+        
         profile.CreateMap<FitFalMVC.Domain.Model.Product, FitFalMVC.Application.ViewModels.MealVmDirector.MealDetailVm>();
         
-        profile.CreateMap<FitFalMVC.Domain.Model.Meal, FitFalMVC.Application.ViewModels.MealVmDirector.MealDetailVm>()
-            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
-        
-        // profile.CreateMap<FitFalMVC.Application.ViewModels.MealVmDirector.ListMealsForListVm, FitFalMVC.Application.ViewModels.MealVmDirector.MealDetailVm>()
-        //     .ForMember(dest => dest.Meals, opt => opt.MapFrom(src => src.Meals));
- 
-        
     }
-
     }
         
     

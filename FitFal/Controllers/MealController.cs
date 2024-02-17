@@ -1,5 +1,6 @@
 using FitFalMVC.Application.Interfaces;
 using FitFalMVC.Application.Services;
+using FitFalMVC.Application.ViewModels.MealVmDirector;
 using FitFalMVC.Application.ViewModels.ProductVmDirector;
 using FitFalMVC.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +19,10 @@ public class MealController : Controller
     }
 
     [HttpGet]
-    public IActionResult Index(bool showProducts = false)
+    public IActionResult Index() //bool showProducts = false
     {
         var model = _mealService.GetAllMealsForList();
-        ViewBag.ShowProducts = showProducts;
+        //ViewBag.ShowProducts = showProducts;
 
 
 
@@ -46,7 +47,8 @@ public class MealController : Controller
     [HttpGet]
     public IActionResult ListOfProduct(int mealId)
     {
-        ViewBag.MealId = mealId;
+        //ViewBag.MealId = mealId;
+        TempData["MealId"] = mealId;
         var model = _productService.GetAllProductForList(2, 1, "");
         return View(model);
 
@@ -55,7 +57,7 @@ public class MealController : Controller
     [HttpPost]
     public IActionResult ListOfProduct(int pageSize, int? pageNo, string searchString, int mealId)
     {
-        ViewBag.MealId = mealId;
+        TempData["MealId"] = mealId;
 
         if (!pageNo.HasValue)
         {
@@ -71,13 +73,19 @@ public class MealController : Controller
         return View(model);
 
     }
-
-    // public IActionResult Details(int mealid)
-    // {
-    //     var model = _mealService.MapMealToProductsList(mealid);
-    //     return View(model);
-    // }
     
+    [HttpPost]
+    public IActionResult AddDayOfEating(DateTime selectedDate,DayOfEatingForListVm dayOfEatingForListVm)
+    {
+        var allMeals = _mealService.GetAllMealsForList().Meals;
+        dayOfEatingForListVm.Data = selectedDate.Date;
+        dayOfEatingForListVm.Meals = allMeals;
+        
+
+        _mealService.AddNewDay(dayOfEatingForListVm);
+        
+        return RedirectToAction("Index");    
+    }
+
 
 }
-
