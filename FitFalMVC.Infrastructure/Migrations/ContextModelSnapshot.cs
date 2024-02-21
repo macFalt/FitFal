@@ -22,22 +22,7 @@ namespace FitFalMVC.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DayOfEatingMeal", b =>
-                {
-                    b.Property<int>("DayOfEatingsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MealsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DayOfEatingsId", "MealsId");
-
-                    b.HasIndex("MealsId");
-
-                    b.ToTable("DayOfEatingMeal");
-                });
-
-            modelBuilder.Entity("FitFalMVC.Domain.Model.DayOfEating", b =>
+            modelBuilder.Entity("FitFalMVC.Domain.Model.Meal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,23 +32,6 @@ namespace FitFalMVC.Infrastructure.Migrations
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DayOfEatings");
-                });
-
-            modelBuilder.Entity("FitFalMVC.Domain.Model.Meal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -314,21 +282,6 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("DayOfEatingMeal", b =>
-                {
-                    b.HasOne("FitFalMVC.Domain.Model.DayOfEating", null)
-                        .WithMany()
-                        .HasForeignKey("DayOfEatingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FitFalMVC.Domain.Model.Meal", null)
-                        .WithMany()
-                        .HasForeignKey("MealsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("MealProduct", b =>

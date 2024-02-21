@@ -18,36 +18,39 @@ public class MealController : Controller
         _productService = productService;
     }
 
-    [HttpGet]
-    public IActionResult Index() //bool showProducts = false
+    
+    public IActionResult Index(DateTime selectedDate)
     {
-        var model = _mealService.GetAllMealsForList();
-        //ViewBag.ShowProducts = showProducts;
-
-
-
+        if (selectedDate == DateTime.MinValue)
+        {
+            selectedDate = DateTime.Today;
+        }
+        var model = _mealService.GetAllMealsForList(selectedDate);
         return View(model);
+    }
+
+    
+    public IActionResult AddMealsToDay(DateTime selectedDate) 
+    {
+       _mealService.AddMealsToDay(selectedDate);
+       var model = _mealService.GetAllMealsForList(selectedDate);
+       return View("Index", model);
     }
     
 
+    
+
     [HttpGet]
-    public IActionResult AddProductToMeal(int productId, int mealId)
+    public IActionResult AddProductToMeal(int productId, int mealId,int quantity)
     {
-        try
-        {
             var result = _mealService.AddProductMeal(productId, mealId);
-            return Ok($"Product added to Meal with ID {result}");
-        }
-        catch (InvalidOperationException ex)
-        {
-            return BadRequest(ex.Message);
-        }
+            var meal = _mealService.GetMealById(mealId);
+            return View("Index", meal);
     }
 
     [HttpGet]
     public IActionResult ListOfProduct(int mealId)
     {
-        //ViewBag.MealId = mealId;
         TempData["MealId"] = mealId;
         var model = _productService.GetAllProductForList(2, 1, "");
         return View(model);
@@ -74,18 +77,9 @@ public class MealController : Controller
 
     }
     
-    [HttpPost]
-    public IActionResult AddDayOfEating(DateTime selectedDate,DayOfEatingForListVm dayOfEatingForListVm)
-    {
-        var allMeals = _mealService.GetAllMealsForList().Meals;
-        dayOfEatingForListVm.Data = selectedDate.Date;
-        dayOfEatingForListVm.Meals = allMeals;
-        
 
-        _mealService.AddNewDay(dayOfEatingForListVm);
-        
-        return RedirectToAction("Index");    
     }
+    
 
 
-}
+

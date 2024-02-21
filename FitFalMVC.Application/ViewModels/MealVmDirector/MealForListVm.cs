@@ -12,7 +12,6 @@ public class MealForListVm : IMapFrom<FitFalMVC.Domain.Model.Meal>
     
     public DateTime Data { get; set; }
     public List<MealDetailVm> Products { get; set; }
-    public List<DayOfEatingForListVm> DayOfEatingForListVms { get; set; }
     
     public void ConfigureMapping(Profile profile)
     {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FitFalMVC.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Migration1002 : Migration
+    public partial class Migration1702 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,26 +51,13 @@ namespace FitFalMVC.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DayOfEatings",
+                name: "Meals",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Data = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DayOfEatings", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Meals",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,30 +188,6 @@ namespace FitFalMVC.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DayOfEatingMeal",
-                columns: table => new
-                {
-                    DayOfEatingsId = table.Column<int>(type: "int", nullable: false),
-                    MealsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DayOfEatingMeal", x => new { x.DayOfEatingsId, x.MealsId });
-                    table.ForeignKey(
-                        name: "FK_DayOfEatingMeal_DayOfEatings_DayOfEatingsId",
-                        column: x => x.DayOfEatingsId,
-                        principalTable: "DayOfEatings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DayOfEatingMeal_Meals_MealsId",
-                        column: x => x.MealsId,
-                        principalTable: "Meals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MealProduct",
                 columns: table => new
                 {
@@ -288,11 +251,6 @@ namespace FitFalMVC.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DayOfEatingMeal_MealsId",
-                table: "DayOfEatingMeal",
-                column: "MealsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MealProduct_ProductsId",
                 table: "MealProduct",
                 column: "ProductsId");
@@ -317,9 +275,6 @@ namespace FitFalMVC.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "DayOfEatingMeal");
-
-            migrationBuilder.DropTable(
                 name: "MealProduct");
 
             migrationBuilder.DropTable(
@@ -327,9 +282,6 @@ namespace FitFalMVC.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "DayOfEatings");
 
             migrationBuilder.DropTable(
                 name: "Meals");

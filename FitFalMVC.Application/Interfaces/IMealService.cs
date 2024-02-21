@@ -7,14 +7,10 @@ public interface IMealService
 {
      int AddProductMeal(int productId, int mealId);
 
-
+     ListMealsForListVm GetMealById(int mealId);
      
-     ListMealsForListVm GetAllMealsForList();
+     ListMealsForListVm GetAllMealsForList(DateTime selectedData);
 
 
-
-    // ListProductsInMealVm MapMealToProductsList(int meal);
-
-
-    int AddNewDay(DayOfEatingForListVm newDayOfEatingVm);
+     void AddMealsToDay(DateTime selectedData);
 }

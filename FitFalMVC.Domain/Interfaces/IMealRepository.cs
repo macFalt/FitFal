@@ -4,16 +4,17 @@ namespace FitFalMVC.Domain.Interfaces;
 
 public interface IMealRepository
 {
-     IQueryable<Meal> GetAllMeals();
+    IQueryable<Meal> GetAllMeals(DateTime selectedData);
 
-     int AddProductTo(int productId, int mealId);
-
-
+    int AddProductTo(int productId, int mealId);
 
 
-     // Meal GetMealById(int mealId);
+    void AddMeals(List<Meal> meals);
 
+    // Meal GetMealById(int mealId);
 
-     int AddProduct(DayOfEating day);
-     int AddMealToDay(int dayOfEatingId);
+    bool MealsExistForDate(DateTime selectedDate);
+
+    IQueryable<Meal> GetAllMealsById(int mealId);
 }
+

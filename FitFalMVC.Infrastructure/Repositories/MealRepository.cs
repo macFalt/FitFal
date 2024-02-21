@@ -1,3 +1,4 @@
+using FitFalMVC.Application.ViewModels.MealVmDirector;
 using FitFalMVC.Domain.Interfaces;
 using FitFalMVC.Domain.Model;
 using Microsoft.EntityFrameworkCore;
@@ -13,84 +14,87 @@ public class MealRepository : IMealRepository
         _context = context;
     }
     
-    public IQueryable<Meal> GetAllMeals()
+    public IQueryable<Meal> GetAllMeals(DateTime selectedDate)
     {
-        return _context.Meals.AsQueryable();
+        return _context.Meals
+            .Where(meal => meal.Data.Date == selectedDate.Date)
+            .Include(meal => meal.Products);
+        
     }
     
-    public int AddProductTo(int productId, int mealId )
+    public IQueryable<Meal> GetAllMealsById(int mealId)
+    {
+        var targetMealDate = _context.Meals
+            .Where(meal => meal.Id == mealId)
+            .Select(meal => meal.Data)
+            .FirstOrDefault();
+
+        return _context.Meals
+            .Where(meal => meal.Data == targetMealDate)
+            .Include(meal => meal.Products);
+        
+    }
+    
+    
+    public int AddProductTo(int productId, int mealId)
     {
         var product = _context.Products.Find(productId);
-        var meal = _context.Meals.Find(mealId);
+        var meal = _context.Meals.Include(m => m.Products).FirstOrDefault(m => m.Id == mealId);
 
-
-
-        if (product != null && meal != null)
+        if (product != null)
         {
             if (meal.Products == null)
             {
                 meal.Products = new List<Product>();
             }
 
-            meal.Products.Add(product);
-            // meal.DayOfEatings = dayofeating;
+            if (!meal.Products.Any(p => p.Id == productId))
+            {
+                meal.Products.Add(product);
+                _context.SaveChanges();
+                return meal.Id; 
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        return -1; 
+    }
 
+
+    public void AddMeals(List<Meal> meals)
+    {
+
+            foreach (var mealVm in meals)
+            {
+                var meal = new Meal
+                {
+                    Name = mealVm.Name,
+                    Data = mealVm.Data,
+ 
+                };
+
+                _context.Meals.Add(meal);
+            }
 
             _context.SaveChanges();
-            return meal.Id;
-        }
-
-        return -1;
-
-    }
-
-    public int AddMealToDay( int dayOfEatingId)
-     {
-         var dayOfEating = _context.DayOfEatings.Include(d => d.Meals).FirstOrDefault(d => d.Id == dayOfEatingId);
-
-         if (dayOfEating == null)
-         {
-             throw new ArgumentException("Invalid dayOfEatingId.", nameof(dayOfEatingId));
-         }
-         
-         var allMeals = _context.Meals.ToList();
-
-         foreach (var meal in allMeals)
-         {
-             dayOfEating.Meals.Add(meal);
-         }
-
-         _context.SaveChanges();
-
-         return dayOfEating.Id;
-         
-         
-         
-    //     var meal = _context.Meals.FirstOrDefault(m => m.Id == mealId);
-    //     var dayOfEating = _context.DayOfEatings.FirstOrDefault(d => d.Id == dayOfEatingId);
-    //
-    //     if (meal == null || dayOfEating == null)
-    //     {
-    //         throw new ArgumentException("Invalid mealId or dayOfEatingId.");
-    //     }
-    //
-    //
-    //     _context.SaveChanges();
-    //
-    //     return meal.Id;
         
         
-        // _context.DayOfEatings.Add(dayOfEatingId);
-        // _context.SaveChanges();
-        // return dayOfEatingId.Id;
+        
     }
-
-    public int AddProduct(DayOfEating day)
+    
+    public bool MealsExistForDate(DateTime selectedDate)
     {
-        _context.DayOfEatings.Add(day);
-        _context.SaveChanges();
-        return day.Id;
+        return _context.Meals.Any(m => m.Data.Date == selectedDate.Date);
     }
+
+
+
+    
+
+
+
 
 }
 

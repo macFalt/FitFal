@@ -24,23 +24,32 @@ public class MealService : IMealService
     {
         return _mealRepo.AddProductTo(productId, mealId);
     }
-    
-    // public ListProductsInMealVm MapMealToProductsList(int mealId)
-    // {
-    //     var meal = _mealRepo.GetMealById(mealId); 
-    //     var productsListVm = new ListProductsInMealVm
-    //     {
-    //         Products = _mapper.Map<List<MealDetailVm>>(meal.Products)
-    //     };
-    //     return productsListVm;
-    // }
-    
-    public ListMealsForListVm GetAllMealsForList()
+     
+    public ListMealsForListVm GetAllMealsForList(DateTime selectedData)
     {
-        var mealsFromDb = _mealRepo.GetAllMeals()
+        var mealsFromDb = _mealRepo.GetAllMeals(selectedData)
             .ProjectTo<FitFalMVC.Application.ViewModels.MealVmDirector.MealForListVm>(_mapper.ConfigurationProvider)
             .ToList();
-        
+        var combinedVm = new ListMealsForListVm()
+        {
+            Meals = new List<MealForListVm>(),
+            Products = new List<MealDetailVm>()
+        };
+        foreach (var meal in mealsFromDb)
+        {
+            combinedVm.Meals.Add(meal);
+            var productsForMeal = meal.Products.Select(product => _mapper.Map<MealDetailVm>(product)).ToList();
+            combinedVm.Products.AddRange(productsForMeal);
+        }
+        return combinedVm;
+    }
+    
+    public ListMealsForListVm GetMealById(int mealId)
+    {
+        var mealsFromDb = _mealRepo.GetAllMealsById(mealId)
+            .ProjectTo<FitFalMVC.Application.ViewModels.MealVmDirector.MealForListVm>(_mapper.ConfigurationProvider)
+            .ToList();
+
         var combinedVm = new ListMealsForListVm()
         {
             Meals = new List<MealForListVm>(),
@@ -50,39 +59,37 @@ public class MealService : IMealService
         foreach (var meal in mealsFromDb)
         {
             combinedVm.Meals.Add(meal);
-
             var productsForMeal = meal.Products.Select(product => _mapper.Map<MealDetailVm>(product)).ToList();
             combinedVm.Products.AddRange(productsForMeal);
         }
-
         return combinedVm;
     }
 
-
-
-    public int AddNewDay(DayOfEatingForListVm newDayOfEatingVm )
-    {
-
-       var newDayOfEating = _mapper.Map<DayOfEating>(newDayOfEatingVm);
-
-       
-       
-        var id = _mealRepo.AddProduct(newDayOfEating);
-        
-        var mealsForDay = newDayOfEatingVm.Meals;
-        
-        foreach (var mealVm in mealsForDay)
-         {
-             var meal = _mapper.Map<MealForListVm, Meal>(mealVm);
-             
-             var mealId = _mealRepo.AddMealToDay(id);
-         }
-
-        return id;
-    }
-
     
+
+    public void AddMealsToDay(DateTime selectedData)
+    {
+        bool mealsExist = _mealRepo.MealsExistForDate(selectedData);
+        if (!mealsExist)
+        {
+            List<MealForListVm> mealsOfDay = new List<MealForListVm>();
+            string[] mealNames = { "Śniadanie", "II śniadanie", "Obiad", "Przekąska", "Kolacja" };
+            foreach (var mealName in mealNames)
+            {
+                MealForListVm meal = new MealForListVm
+                {
+                    Name = mealName,
+                    Data = selectedData,
+                    Products = new List<MealDetailVm>()
+                };
+                mealsOfDay.Add(meal);
+            }
+            var mappedMeals = _mapper.Map<List<Meal>>(mealsOfDay);
+            _mealRepo.AddMeals(mappedMeals);
+        }
     }
+
+}
     
     
 

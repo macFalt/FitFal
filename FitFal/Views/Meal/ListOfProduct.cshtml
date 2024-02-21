@@ -32,8 +32,9 @@
                         @Html.DisplayFor(modelProduct=>product.Name)
                     </td>
                     <td>
-                        @Html.ActionLink("Dodaj product do posiłku","AddProductToMeal",new {productId=product.Id,mealId=TempData["MealId"]})|
-
+                        @Html.TextBox("quantity", null, new { placeholder = "Ilość gram", type = "number",id = "quantityField" })</td>
+                    <td>
+                        <a href="#" onclick="addProductToMeal(@product.Id)">Dodaj product do posiłku</a>
                     </td>
                 </tr>
             }
@@ -78,3 +79,18 @@
         }
     </script>
 }
+
+<script type="text/javascript">
+        function addProductToMeal(productId) {
+            var quantity = document.getElementById("quantityField").value;
+            var mealId = "@TempData["MealId"]";
+            var url = "/Meal/AddProductToMeal?productId=" + productId + "&mealId=" + mealId + "&quantity=" + quantity;
+            window.location.href = url;
+        }
+
+        function PagerClick(index) {
+            document.getElementById("pageNo").value = index;
+            document.forms[0].submit();
+        }
+</script>
+
