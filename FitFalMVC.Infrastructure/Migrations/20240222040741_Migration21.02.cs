@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FitFalMVC.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Migration1702 : Migration
+    public partial class Migration2102 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -188,24 +188,29 @@ namespace FitFalMVC.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MealProduct",
+                name: "MealProducts",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     MealsId = table.Column<int>(type: "int", nullable: false),
-                    ProductsId = table.Column<int>(type: "int", nullable: false)
+                    MealId = table.Column<int>(type: "int", nullable: false),
+                    ProductsId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Grammage = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MealProduct", x => new { x.MealsId, x.ProductsId });
+                    table.PrimaryKey("PK_MealProducts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MealProduct_Meals_MealsId",
-                        column: x => x.MealsId,
+                        name: "FK_MealProducts_Meals_MealId",
+                        column: x => x.MealId,
                         principalTable: "Meals",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MealProduct_Products_ProductsId",
-                        column: x => x.ProductsId,
+                        name: "FK_MealProducts_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -251,9 +256,14 @@ namespace FitFalMVC.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MealProduct_ProductsId",
-                table: "MealProduct",
-                column: "ProductsId");
+                name: "IX_MealProducts_MealId",
+                table: "MealProducts",
+                column: "MealId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MealProducts_ProductId",
+                table: "MealProducts",
+                column: "ProductId");
         }
 
         /// <inheritdoc />
@@ -275,7 +285,7 @@ namespace FitFalMVC.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "MealProduct");
+                name: "MealProducts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

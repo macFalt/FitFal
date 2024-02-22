@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitFalMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240217091846_Migration17.02")]
-    partial class Migration1702
+    [Migration("20240222040741_Migration21.02")]
+    partial class Migration2102
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,38 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.ToTable("Meals");
                 });
 
+            modelBuilder.Entity("FitFalMVC.Domain.Model.MealProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Grammage")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MealsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MealId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("MealProducts");
+                });
+
             modelBuilder.Entity("FitFalMVC.Domain.Model.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -72,21 +104,6 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("MealProduct", b =>
-                {
-                    b.Property<int>("MealsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MealsId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("MealProduct");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -287,19 +304,23 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MealProduct", b =>
+            modelBuilder.Entity("FitFalMVC.Domain.Model.MealProduct", b =>
                 {
-                    b.HasOne("FitFalMVC.Domain.Model.Meal", null)
-                        .WithMany()
-                        .HasForeignKey("MealsId")
+                    b.HasOne("FitFalMVC.Domain.Model.Meal", "Meal")
+                        .WithMany("MealProducts")
+                        .HasForeignKey("MealId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FitFalMVC.Domain.Model.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
+                    b.HasOne("FitFalMVC.Domain.Model.Product", "Product")
+                        .WithMany("MealProducts")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Meal");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -351,6 +372,16 @@ namespace FitFalMVC.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FitFalMVC.Domain.Model.Meal", b =>
+                {
+                    b.Navigation("MealProducts");
+                });
+
+            modelBuilder.Entity("FitFalMVC.Domain.Model.Product", b =>
+                {
+                    b.Navigation("MealProducts");
                 });
 #pragma warning restore 612, 618
         }

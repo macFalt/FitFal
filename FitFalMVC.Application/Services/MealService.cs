@@ -20,9 +20,9 @@ public class MealService : IMealService
         _mapper = mapper;
     }
     
-    public int AddProductMeal(int productId, int mealId)
+    public int AddProductMeal(int productId, int mealId,int quantity)
     {
-        return _mealRepo.AddProductTo(productId, mealId);
+        return _mealRepo.AddProductTo(productId, mealId, quantity);
     }
      
     public ListMealsForListVm GetAllMealsForList(DateTime selectedData)
@@ -38,8 +38,14 @@ public class MealService : IMealService
         foreach (var meal in mealsFromDb)
         {
             combinedVm.Meals.Add(meal);
-            var productsForMeal = meal.Products.Select(product => _mapper.Map<MealDetailVm>(product)).ToList();
-            combinedVm.Products.AddRange(productsForMeal);
+            if (meal.Products != null)
+            {
+                var productsForMeal = meal.Products.Select(product => _mapper.Map<MealDetailVm>(product)).ToList();
+                combinedVm.Products.AddRange(productsForMeal);
+            }
+            
+            // var productsForMeal = meal.Products.Select(product => _mapper.Map<MealDetailVm>(product)).ToList();
+            // combinedVm.Products.AddRange(productsForMeal);
         }
         return combinedVm;
     }
@@ -59,8 +65,11 @@ public class MealService : IMealService
         foreach (var meal in mealsFromDb)
         {
             combinedVm.Meals.Add(meal);
-            var productsForMeal = meal.Products.Select(product => _mapper.Map<MealDetailVm>(product)).ToList();
-            combinedVm.Products.AddRange(productsForMeal);
+            if (meal.Products != null)
+            {
+                var productsForMeal = meal.Products.Select(product => _mapper.Map<MealDetailVm>(product)).ToList();
+                combinedVm.Products.AddRange(productsForMeal);
+            }
         }
         return combinedVm;
     }

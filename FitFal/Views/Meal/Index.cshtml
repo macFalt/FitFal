@@ -80,16 +80,30 @@ $(function () {
                                     </thead>
 
                                     <tbody>
-                                    @foreach (var product in meal.Products)
-                                    {
-                                        <tr>
-                                            <td>@Html.DisplayFor(modelProduct => product.Name)</td>
-                                            <td>@Html.DisplayFor(modelProduct => product.Calories)</td>
-                                            <td>@Html.DisplayFor(modelProduct => product.Protein)</td>
-                                            <td>@Html.DisplayFor(modelProduct => product.Fat)</td>
-                                            <td>@Html.DisplayFor(modelProduct => product.Carbohydrates)</td>
-                                        </tr>
+                                    @if (meal.Products == null || !meal.Products.Any())
+                                    { <tr>
+                                        <td colspan="5">Brak produktów</td>
+                                    </tr>
                                     }
+                                    else
+                                    {
+                                     @foreach (var product in meal.Products)
+                                      {
+                                          
+                                          <tr>
+                                              @* @{ *@
+                                              @*     var calculatedCalories = product.Calories * product.Grammage / 100; *@
+                                              @* } *@
+                                <td>@Html.DisplayFor(modelProduct => product.Name)</td>
+                                <td>@Html.DisplayFor(modelProduct => product.CalculatedCalories)</td>
+                                <td>@Html.DisplayFor(modelProduct => product.Protein)</td>
+                                <td>@Html.DisplayFor(modelProduct => product.Fat)</td>
+                                <td>@Html.DisplayFor(modelProduct => product.Carbohydrates)</td>
+                            </tr>
+                        }
+                    }
+
+
                                     </tbody>
                                 </table>
                             </details>

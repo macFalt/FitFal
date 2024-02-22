@@ -18,7 +18,7 @@ public class MealRepository : IMealRepository
     {
         return _context.Meals
             .Where(meal => meal.Data.Date == selectedDate.Date)
-            .Include(meal => meal.Products);
+            .Include(meal => meal.MealProducts);
         
     }
     
@@ -31,28 +31,37 @@ public class MealRepository : IMealRepository
 
         return _context.Meals
             .Where(meal => meal.Data == targetMealDate)
-            .Include(meal => meal.Products);
+            .Include(meal => meal.MealProducts);
         
     }
     
     
-    public int AddProductTo(int productId, int mealId)
+    public int AddProductTo(int productId, int mealId,int quantity)
     {
-        var product = _context.Products.Find(productId);
-        var meal = _context.Meals.Include(m => m.Products).FirstOrDefault(m => m.Id == mealId);
+       var product = _context.Products.Find(productId);
+        var meal = _context.Meals.Include(m => m.MealProducts).FirstOrDefault(m => m.Id == mealId);
 
         if (product != null)
         {
-            if (meal.Products == null)
+            if (meal.MealProducts == null)
             {
-                meal.Products = new List<Product>();
+                meal.MealProducts = new List<MealProduct>();
             }
 
-            if (!meal.Products.Any(p => p.Id == productId))
+            if (!meal.MealProducts.Any(p => p.ProductsId == productId))
             {
-                meal.Products.Add(product);
+                var mealProduct = new MealProduct
+                {
+                    MealsId = mealId,
+                    Meal = meal,
+                    ProductsId = productId,
+                    Product = product,
+                    Grammage = quantity 
+                };
+
+                meal.MealProducts.Add(mealProduct);
                 _context.SaveChanges();
-                return meal.Id; 
+                return meal.Id;
             }
             else
             {
