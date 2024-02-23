@@ -10,6 +10,7 @@ namespace FitFalMVC.Application.ViewModels.MealVmDirector;
 
 public class MealDetailVm :IMapFrom<FitFalMVC.Domain.Model.Meal>
 {
+    public int Id { get; set; }
     public string Name { get; set; }
         
     public int Calories { get; set; }
@@ -20,10 +21,9 @@ public class MealDetailVm :IMapFrom<FitFalMVC.Domain.Model.Meal>
     
     public float Carbohydrates { get; set; }
 
+
     public int Grammage { get; set; }
-    
-    public float CalculatedCalories => Calories * Grammage / 100;
-    
+
 
     public List<MealDetailVm> Products { get; set; }
     public List<MealDetailVm> Meals { get; set; }
@@ -33,8 +33,9 @@ public class MealDetailVm :IMapFrom<FitFalMVC.Domain.Model.Meal>
     {
         profile.CreateMap<FitFalMVC.Domain.Model.Meal, FitFalMVC.Application.ViewModels.MealVmDirector.MealDetailVm>()
             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.MealProducts));
+            
         profile.CreateMap<FitFalMVC.Domain.Model.Product, FitFalMVC.Application.ViewModels.MealVmDirector.MealDetailVm>();
-
+        //
         profile.CreateMap<FitFalMVC.Domain.Model.MealProduct, FitFalMVC.Application.ViewModels.MealVmDirector.MealDetailVm>()
             .ForMember(dest => dest.Grammage, opt => opt.MapFrom(src => src.Grammage));
     }

@@ -6,8 +6,11 @@ public interface IMealRepository
 {
     IQueryable<Meal> GetAllMeals(DateTime selectedData);
 
+
     int AddProductTo(int productId, int mealId,int quantity);
 
+    int GetGrammageForProduct(int productId);
+    
 
     void AddMeals(List<Meal> meals);
 

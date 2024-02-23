@@ -43,7 +43,7 @@ public class MealController : Controller
     [HttpGet]
     public IActionResult AddProductToMeal(int productId, int mealId,int quantity)
     {
-            var result = _mealService.AddProductMeal(productId, mealId,quantity);
+            var result = _mealService.AddProductMeal(productId, mealId, quantity);
             var meal = _mealService.GetMealById(mealId);
             return View("Index", meal);
     }

@@ -24,15 +24,17 @@
             </tr>
             </thead>
             <tbody>
+                     <td>
+                   @Html.TextBox("quantity", null, new { placeholder = "Ilość gram", type = "number",id = "quantityField" })
+                   </td>
             @foreach (var product in Model.Products)
             {
-                
+
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelProduct=>product.Name)
+                        @Html.DisplayFor(modelProduct => product.Name)
                     </td>
-                    <td>
-                        @Html.TextBox("quantity", null, new { placeholder = "Ilość gram", type = "number",id = "quantityField" })</td>
+
                     <td>
                         <a href="#" onclick="addProductToMeal(@product.Id)">Dodaj product do posiłku</a>
                     </td>

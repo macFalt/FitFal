@@ -30,6 +30,9 @@ public class MealService : IMealService
         var mealsFromDb = _mealRepo.GetAllMeals(selectedData)
             .ProjectTo<FitFalMVC.Application.ViewModels.MealVmDirector.MealForListVm>(_mapper.ConfigurationProvider)
             .ToList();
+
+        
+        
         var combinedVm = new ListMealsForListVm()
         {
             Meals = new List<MealForListVm>(),
@@ -40,12 +43,16 @@ public class MealService : IMealService
             combinedVm.Meals.Add(meal);
             if (meal.Products != null)
             {
-                var productsForMeal = meal.Products.Select(product => _mapper.Map<MealDetailVm>(product)).ToList();
-                combinedVm.Products.AddRange(productsForMeal);
+                foreach (var product in meal.Products)
+                {
+                    var grammage = _mealRepo.GetGrammageForProduct(product.Id);
+
+                    var productVm = _mapper.Map<MealDetailVm>(product);
+                    productVm.Grammage = grammage;
+
+                    combinedVm.Products.Add(productVm);
+                }
             }
-            
-            // var productsForMeal = meal.Products.Select(product => _mapper.Map<MealDetailVm>(product)).ToList();
-            // combinedVm.Products.AddRange(productsForMeal);
         }
         return combinedVm;
     }
@@ -67,8 +74,15 @@ public class MealService : IMealService
             combinedVm.Meals.Add(meal);
             if (meal.Products != null)
             {
-                var productsForMeal = meal.Products.Select(product => _mapper.Map<MealDetailVm>(product)).ToList();
-                combinedVm.Products.AddRange(productsForMeal);
+                foreach (var product in meal.Products)
+                {
+                    var grammage = _mealRepo.GetGrammageForProduct(product.Id);
+
+                    var productVm = _mapper.Map<MealDetailVm>(product);
+                    productVm.Grammage = grammage;
+
+                    combinedVm.Products.Add(productVm);
+                }
             }
         }
         return combinedVm;

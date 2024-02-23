@@ -1,3 +1,5 @@
+@using FitFalMVC.Domain.Model
+@using FitFalMVC.Application.ViewModels.MealVmDirector
 @model FitFalMVC.Application.ViewModels.MealVmDirector.ListMealsForListVm
 
 @{
@@ -91,14 +93,17 @@ $(function () {
                                       {
                                           
                                           <tr>
-                                              @* @{ *@
-                                              @*     var calculatedCalories = product.Calories * product.Grammage / 100; *@
-                                              @* } *@
+                                              @{
+                                                  var calculatedCalories = product.Calories * product.Grammage / 100;
+                                                  var calculatedProtein = product.Protein * product.Grammage / 100;
+                                                  var calculatedCFat = product.Fat * product.Grammage / 100;
+                                                  var calculatedCarbo = product.Carbohydrates * product.Grammage / 100;
+                                              }
                                 <td>@Html.DisplayFor(modelProduct => product.Name)</td>
-                                <td>@Html.DisplayFor(modelProduct => product.CalculatedCalories)</td>
-                                <td>@Html.DisplayFor(modelProduct => product.Protein)</td>
-                                <td>@Html.DisplayFor(modelProduct => product.Fat)</td>
-                                <td>@Html.DisplayFor(modelProduct => product.Carbohydrates)</td>
+                                <td>@Html.DisplayFor(modelProduct => calculatedCalories)</td>
+                                <td>@Html.DisplayFor(modelProduct => calculatedProtein)</td>
+                                <td>@Html.DisplayFor(modelProduct => calculatedCFat)</td>
+                                <td>@Html.DisplayFor(modelProduct => calculatedCarbo)</td>
                             </tr>
                         }
                     }

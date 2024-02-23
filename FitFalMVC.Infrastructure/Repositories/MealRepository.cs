@@ -19,8 +19,17 @@ public class MealRepository : IMealRepository
         return _context.Meals
             .Where(meal => meal.Data.Date == selectedDate.Date)
             .Include(meal => meal.MealProducts);
-        
     }
+    
+    public int GetGrammageForProduct(int productId)
+    {
+        return _context.MealProducts
+            .Where(mealProduct => mealProduct.ProductsId == productId)
+            .Select(mealProduct => mealProduct.Grammage)
+            .FirstOrDefault();
+    }
+    
+
     
     public IQueryable<Meal> GetAllMealsById(int mealId)
     {

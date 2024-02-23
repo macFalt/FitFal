@@ -12,13 +12,16 @@ public class MealForListVm : IMapFrom<FitFalMVC.Domain.Model.Meal>
     
     public DateTime Data { get; set; }
     
-    
+    public int Grammage { get; set; }
+
+
     public List<MealDetailVm> Products { get; set; }
     
     public void ConfigureMapping(Profile profile)
     {
          profile.CreateMap<FitFalMVC.Domain.Model.Meal, FitFalMVC.Application.ViewModels.MealVmDirector.MealForListVm>()
              .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.MealProducts.Select(mp => mp.Product)));
+         profile.CreateMap<MealForListVm, Meal>();
 
          profile.CreateMap<FitFalMVC.Domain.Model.MealProduct, FitFalMVC.Application.ViewModels.MealVmDirector.MealForListVm>();
 
