@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitFalMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240222040741_Migration21.02")]
-    partial class Migration2102
+    [Migration("20240224043120_Migration24.02")]
+    partial class Migration2402
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,8 +85,8 @@ namespace FitFalMVC.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Calories")
-                        .HasColumnType("int");
+                    b.Property<float>("Calories")
+                        .HasColumnType("real");
 
                     b.Property<float>("Carbohydrates")
                         .HasColumnType("real");

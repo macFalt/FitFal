@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FitFalMVC.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Migration2102 : Migration
+    public partial class Migration2402 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,7 +71,7 @@ namespace FitFalMVC.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Calories = table.Column<int>(type: "int", nullable: false),
+                    Calories = table.Column<float>(type: "real", nullable: false),
                     Protein = table.Column<float>(type: "real", nullable: false),
                     Fat = table.Column<float>(type: "real", nullable: false),
                     Carbohydrates = table.Column<float>(type: "real", nullable: false)

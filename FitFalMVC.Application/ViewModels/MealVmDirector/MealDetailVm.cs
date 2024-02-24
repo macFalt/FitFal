@@ -13,17 +13,15 @@ public class MealDetailVm :IMapFrom<FitFalMVC.Domain.Model.Meal>
     public int Id { get; set; }
     public string Name { get; set; }
         
-    public int Calories { get; set; }
+    public float Calories { get; set; }
     
     public float Protein { get; set; }
     
     public float Fat { get; set; }
     
     public float Carbohydrates { get; set; }
-
-
-    public int Grammage { get; set; }
-
+    
+    public float Grammage { get; set; }
 
     public List<MealDetailVm> Products { get; set; }
     public List<MealDetailVm> Meals { get; set; }

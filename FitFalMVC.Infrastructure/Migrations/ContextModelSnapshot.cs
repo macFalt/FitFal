@@ -82,8 +82,8 @@ namespace FitFalMVC.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Calories")
-                        .HasColumnType("int");
+                    b.Property<float>("Calories")
+                        .HasColumnType("real");
 
                     b.Property<float>("Carbohydrates")
                         .HasColumnType("real");

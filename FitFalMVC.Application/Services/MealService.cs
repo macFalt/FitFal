@@ -30,8 +30,6 @@ public class MealService : IMealService
         var mealsFromDb = _mealRepo.GetAllMeals(selectedData)
             .ProjectTo<FitFalMVC.Application.ViewModels.MealVmDirector.MealForListVm>(_mapper.ConfigurationProvider)
             .ToList();
-
-        
         
         var combinedVm = new ListMealsForListVm()
         {
@@ -43,16 +41,18 @@ public class MealService : IMealService
             combinedVm.Meals.Add(meal);
             if (meal.Products != null)
             {
+    
                 foreach (var product in meal.Products)
                 {
                     var grammage = _mealRepo.GetGrammageForProduct(product.Id);
-
                     var productVm = _mapper.Map<MealDetailVm>(product);
                     productVm.Grammage = grammage;
-
                     combinedVm.Products.Add(productVm);
                 }
+                
+                
             }
+            
         }
         return combinedVm;
     }

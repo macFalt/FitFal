@@ -32,6 +32,10 @@ public class MealController : Controller
     
     public IActionResult AddMealsToDay(DateTime selectedDate) 
     {
+        if (selectedDate == DateTime.MinValue)
+        {
+            selectedDate = DateTime.Today;
+        }
        _mealService.AddMealsToDay(selectedDate);
        var model = _mealService.GetAllMealsForList(selectedDate);
        return View("Index", model);
