@@ -3,11 +3,11 @@
 @model FitFalMVC.Application.ViewModels.MealVmDirector.ListMealsForListVm
 
 @{
-    ViewBag.Title = "Baza posiłków";
+    ViewBag.Title = "Dziennik dietetyczny";
     Layout = "_Layout";
 }
 
-<h1>Baza posiłków</h1>
+<h1>Dziennik dietetyczny</h1>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -47,10 +47,10 @@ $(function () {
 <form asp-action="Index" asp-controller="Meal" method="post">
     <div class="row">
         @{
-            var totalCalories = Math.Round(Model.Meals.Sum(meal => meal.Products.Sum(product => product.Calories * product.Grammage / 100.0)),2);
-            var totalProtein = Math.Round(Model.Meals.Sum(meal => meal.Products.Sum(product => product.Protein * product.Grammage / 100.0)),2);
-            var totalFat = Math.Round(Model.Meals.Sum(meal => meal.Products.Sum(product => product.Fat * product.Grammage / 100.0)),2);
-            var totalCarbo = Math.Round(Model.Meals.Sum(meal => meal.Products.Sum(product => product.Carbohydrates * product.Grammage / 100.0)),2);
+            var totalCalories = Math.Round(Model.Meals.Sum(meal => meal.Products.Sum(product => product.Calories * product.Grammage / 100.0)), 2);
+            var totalProtein = Math.Round(Model.Meals.Sum(meal => meal.Products.Sum(product => product.Protein * product.Grammage / 100.0)), 2);
+            var totalFat = Math.Round(Model.Meals.Sum(meal => meal.Products.Sum(product => product.Fat * product.Grammage / 100.0)), 2);
+            var totalCarbo = Math.Round(Model.Meals.Sum(meal => meal.Products.Sum(product => product.Carbohydrates * product.Grammage / 100.0)), 2);
         }
         <table>
             <td>Podsumowanie dnia:</td>
@@ -69,10 +69,10 @@ $(function () {
 
             @foreach (var meal in Model.Meals)
             {
-                var totalCaloriesForMeal = Math.Round(meal.Products.Sum(product => product.Calories * product.Grammage / 100.0),2);
-                var totalProteinForMeal = Math.Round(meal.Products.Sum(product => product.Protein * product.Grammage / 100.0),2);
-                var totalFatForMeal = Math.Round(meal.Products.Sum(product => product.Fat * product.Grammage / 100.0),2);
-                var totalCarboForMeal = Math.Round(meal.Products.Sum(product => product.Carbohydrates * product.Grammage / 100.0),2);
+                var totalCaloriesForMeal = Math.Round(meal.Products.Sum(product => product.Calories * product.Grammage / 100.0), 2);
+                var totalProteinForMeal = Math.Round(meal.Products.Sum(product => product.Protein * product.Grammage / 100.0), 2);
+                var totalFatForMeal = Math.Round(meal.Products.Sum(product => product.Fat * product.Grammage / 100.0), 2);
+                var totalCarboForMeal = Math.Round(meal.Products.Sum(product => product.Carbohydrates * product.Grammage / 100.0), 2);
                 <tr>
                     <td>
                         @meal.Data.ToString("yyyy-MM-dd")
@@ -128,6 +128,10 @@ $(function () {
                                             <td>@Html.DisplayFor(modelProduct => calculatedProtein)</td>
                                             <td>@Html.DisplayFor(modelProduct => calculatedCFat)</td>
                                             <td>@Html.DisplayFor(modelProduct => calculatedCarbo)</td>
+                                            <td>
+                                                @* @Html.ActionLink("Edytuj", "EditProduct", new { id = product.Id })| *@
+                                                @Html.ActionLink("Usuń", "DeleteProduct", new { id = product.Id })
+                                            </td>
                                         </tr>
                                     }
                                 }

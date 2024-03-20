@@ -12,7 +12,7 @@ public class MealService : IMealService
     
     private readonly IMealRepository _mealRepo;
     private readonly IMapper _mapper;
-    private IMealService _mealServiceImplementation;
+   // private IMealService _mealServiceImplementation;
 
     public MealService(IMealRepository mealRepo,IMapper mapper)
     {
@@ -30,7 +30,6 @@ public class MealService : IMealService
         var mealsFromDb = _mealRepo.GetAllMeals(selectedData)
             .ProjectTo<FitFalMVC.Application.ViewModels.MealVmDirector.MealForListVm>(_mapper.ConfigurationProvider)
             .ToList();
-        
         var combinedVm = new ListMealsForListVm()
         {
             Meals = new List<MealForListVm>(),
@@ -41,7 +40,6 @@ public class MealService : IMealService
             combinedVm.Meals.Add(meal);
             if (meal.Products != null)
             {
-    
                 foreach (var product in meal.Products)
                 {
                     var grammage = _mealRepo.GetGrammageForProduct(product.Id);
@@ -49,10 +47,7 @@ public class MealService : IMealService
                     productVm.Grammage = grammage;
                     combinedVm.Products.Add(productVm);
                 }
-                
-                
             }
-            
         }
         return combinedVm;
     }
@@ -112,6 +107,15 @@ public class MealService : IMealService
         }
     }
 
+    public void DeleteProduct(int id)
+    {
+        _mealRepo.DeleteProduct(id);
+    }
+
+    public void GetproductForEdit(int id)
+    {
+        throw new NotImplementedException();
+    }
 }
     
     

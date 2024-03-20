@@ -1,0 +1,81 @@
+@using FitFalMVC.Domain.Model
+@using FitFalMVC.Application.ViewModels.MealVmDirector
+@model FitFalMVC.Application.ViewModels.WorkoutVmDirector.WorkoutDetailVm
+
+@{
+    ViewBag.Title = "Dziennik treningowy";
+    Layout = "_Layout";
+}
+
+<h1>Dziennik treningowy</h1>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+$(function () {
+    $(".datepicker").datepicker({
+        dateFormat: 'yy-mm-dd',
+        onSelect: function (dateText, inst) {
+            $("#workoutDayId").val(dateText);
+            window.location.href = "/Workout/Index?selectedDate=" + dateText;
+        }              
+    });   
+    
+                var selectedDateFromQueryString = new URLSearchParams(window.location.search).get('selectedDate');
+                if (selectedDateFromQueryString) {
+                    $("#workoutDayId").val(selectedDateFromQueryString);
+                }
+    
+    $("#createtreningPlanBtn").click(function () {
+       var selectedDate = $("#workoutDayId").val();
+       var description = $("#workoutDes").val(); // Pobierz wartość pola Description
+       window.location.href = "/Workout/AddWorkoutToDay?selectedDate=" + selectedDate + "&description=" + description;
+        // window.location.href = "/Workout/AddWorkoutToDay?selectedDate=" + selectedDate;
+    });
+});
+
+</script>
+}
+
+@using (Html.BeginForm("AddWorkoutToDay", "Workout", FormMethod.Post))
+{
+    <label for="datepicker">Wybierz datę:</label>
+    <input id="workoutDayId" name="selectedDate" type="text" class="datepicker"/>
+    <label>Rodzaj treningu:</label>
+    <input id="workoutDes" name="description" type="text" />
+    <button type="button" id="createtreningPlanBtn">Stwórz dzień treningowy</button>
+}
+
+@* <p> *@
+@*     <a asp-action="AddExercise">Dodaj ćwiczenie</a> *@
+@* </p> *@
+
+<form asp-action="Index" asp-controller="Workout" method="post">
+    <div class="row">
+        <table class="table">
+            @Html.ActionLink("Dodaj ćwiczenie","AddExercise",new {workoutId=Model.Id})|
+
+            <tbody>
+            @if (Model.Exercises == null || !Model.Exercises.Any())
+            {
+                <tr>
+                    <td colspan="2">Brak ćwiczeń</td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var exercise in Model.Exercises)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelWorkout => exercise.Name)
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+                    
+    </div>
+</form>

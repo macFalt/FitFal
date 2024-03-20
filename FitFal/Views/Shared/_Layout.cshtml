@@ -7,11 +7,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/FitFal.styles.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/dark-hive/jquery-ui.css" />
-    
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/dark-hive/jquery-ui.css"/>
 
-    
-    
+
 </head>
 <body>
 <header>
@@ -34,9 +32,16 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Baza produktów</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Meal" asp-action="Index">Baza Posiłków</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Exercise" asp-action="Index">Atlas ćwiczeń</a>
                     </li>
-                    
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Meal" asp-action="Index">Dziennik dietetyczny</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Workout" asp-action="Index">Dziennik treningowy</a>
+                    </li>
+
+
                 </ul>
                 <partial name="_LoginPartial"/>
             </div>

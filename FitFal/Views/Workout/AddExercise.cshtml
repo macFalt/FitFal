@@ -1,0 +1,90 @@
+@model FitFalMVC.Application.ViewModels.ExerciseVmDirector.ListExerciseForListVm
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+<form asp-action="AddExercise" asp-controller="Workout" method="post">
+    <div class="row">
+        <input type="text" asp-for="SearchString" name="searchString" id="searchString"/>
+        <input type="submit" value="Wyszukaj"/>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Nazwa
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var exercise in Model.ExerciseForListVms)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelExercise => exercise.Name)
+                    </td>
+
+                    <td>
+                        <a href="#" class="add-exercise" data-id="@exercise.Id">Dodaj ćwiczenie</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <table>
+            <tr>
+                @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+                {
+                    <td>
+                        @if (i != Model.CurrentPage)
+                        {
+                            <a href="javascript:PagerClick(@i)">@i</a>
+                        }
+                        else
+                        {
+                            <span>@i</span>
+                        }
+                    </td>
+                }
+            </tr>
+        </table>
+        <input type="hidden" name="pageNo" id="pageNo" />
+        <input type="hidden" name="pageSize" id="pageSize" value="2" />
+        <input type="hidden" name="workoutId" id="workoutId" value="@TempData["WorkoutId"]" />
+    </div>
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(".add-exercise").click(function (e) {
+            e.preventDefault();
+            var exerciseId = $(this).data("id");
+            var workoutId = $("#workoutId").val();
+            addExerciseToWorkout(exerciseId, workoutId);
+        });
+
+        function addExerciseToWorkout(exerciseId, workoutId) {
+            $.ajax({
+                type: "POST",
+                url: "/Workout/AddExerciseToWorkout",
+                data: {
+                    workoutId: workoutId,
+                    exerciseId: exerciseId
+                },
+            });
+        }
+
+        function PagerClick(index) {
+            $("#pageNo").val(index);
+            $("form").submit();
+        }
+    </script>
+}

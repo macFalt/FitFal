@@ -19,5 +19,6 @@ public interface IMealRepository
     bool MealsExistForDate(DateTime selectedDate);
 
     IQueryable<Meal> GetAllMealsById(int mealId);
+    void DeleteProduct(int id);
 }
 

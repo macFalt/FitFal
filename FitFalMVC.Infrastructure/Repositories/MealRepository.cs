@@ -43,8 +43,19 @@ public class MealRepository : IMealRepository
             .Include(meal => meal.MealProducts);
         
     }
-    
-    
+
+    public void DeleteProduct(int id)
+    {
+        //var productId = _context.MealProducts.FirstOrDefault(p => p.ProductsId == id);
+        
+        var product = _context.MealProducts.FirstOrDefault(p=>p.ProductsId==id);
+        if (product!=null)
+        {
+            _context.MealProducts.Remove(product);
+            _context.SaveChanges();
+        }    }
+
+
     public int AddProductTo(int productId, int mealId,int quantity)
     {
        var product = _context.Products.Find(productId);

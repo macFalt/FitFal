@@ -41,9 +41,6 @@ public class MealController : Controller
        return View("Index", model);
     }
     
-
-    
-
     [HttpGet]
     public IActionResult AddProductToMeal(int productId, int mealId,int quantity)
     {
@@ -80,9 +77,22 @@ public class MealController : Controller
         return View(model);
 
     }
-    
 
+
+    public IActionResult DeleteProduct(int id)
+    {
+        _mealService.DeleteProduct(id);
+        return RedirectToAction("Index");
+        
     }
+
+     // public IActionResult EditProduct(int id)
+     // {
+     //
+     //     return View("Index");
+     // }
+
+}
     
 
 
