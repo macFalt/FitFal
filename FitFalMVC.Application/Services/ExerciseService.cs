@@ -34,10 +34,29 @@ public class ExerciseService : IExerciseService
 
         return exerciseList;
     }
+    
+    public ListExerciseForListVm GetAllExercisesForList2()
+    {
+        var exercise = _exerciseRepo.GetAllExercises()
+            .ProjectTo<FitFalMVC.Application.ViewModels.ExerciseVmDirector.ExerciseForListVm>(_mapper.ConfigurationProvider).ToList();
+        var exerciseList = new ListExerciseForListVm()
+        {
+            ExerciseForListVms = exercise
+        };
+
+        return exerciseList;
+    }
 
     public ExerciseDetailVm GetExerciseDetail(int id)
     {
         var exercise = _exerciseRepo.GetDetail(id);
+        var exerciseVm = _mapper.Map<ExerciseDetailVm>(exercise);
+        return exerciseVm;
+    }
+    
+    public ExerciseDetailVm GetExerciseDetailByWorkoutExercise(int id)
+    {
+        var exercise = _exerciseRepo.GetDetailByWorkoutExercise(id);
         var exerciseVm = _mapper.Map<ExerciseDetailVm>(exercise);
         return exerciseVm;
     }

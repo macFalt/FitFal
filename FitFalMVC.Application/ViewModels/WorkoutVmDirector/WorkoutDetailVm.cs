@@ -6,7 +6,7 @@ namespace FitFalMVC.Application.ViewModels.WorkoutVmDirector;
 
 public class WorkoutDetailVm : IMapFrom<Workout>
 {
-    public int WorkoutId { get; set; }
+    public int Id { get; set; }
     
     public string Description  { get; set; }
     
@@ -15,6 +15,8 @@ public class WorkoutDetailVm : IMapFrom<Workout>
     public int Sets { get; set; }
 
     public int Reps { get; set; }
+
+    public float Weight { get; set; }
     
     public List<ExerciseForListVm> Exercises { get; set; } 
 
@@ -22,7 +24,7 @@ public class WorkoutDetailVm : IMapFrom<Workout>
     public void ConfigureMapping(Profile profile)
     {
         profile.CreateMap<Workout, WorkoutDetailVm>().ReverseMap();
-        
+
         profile.CreateMap<Exercise, ExerciseForListVm>();
         profile.CreateMap<WorkoutExercise, WorkoutDetailVm>().ReverseMap();
     }

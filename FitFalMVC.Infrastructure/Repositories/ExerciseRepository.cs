@@ -20,4 +20,11 @@ public class ExerciseRepository : IExerciseRepository
     {
         return _context.Exercises.FirstOrDefault(e => e.Id == id);
     }
+    
+    public Exercise GetDetailByWorkoutExercise(int id)
+    {
+        var workoutExercise = _context.WorkoutExercises.FirstOrDefault(we => we.Id == id);
+
+        return _context.Exercises.FirstOrDefault(e => e.Id == workoutExercise.ExerciseId);
+    }
 }

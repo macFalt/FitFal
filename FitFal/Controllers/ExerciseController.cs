@@ -15,7 +15,7 @@ public class ExerciseController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        var model = _exerciseService.GetAllExercisesForList(2, 1, "");
+        var model = _exerciseService.GetAllExercisesForList(10, 1, "");
         return View(model);
     }
     

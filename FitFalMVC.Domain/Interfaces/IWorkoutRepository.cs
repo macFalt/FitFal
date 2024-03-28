@@ -10,4 +10,8 @@ public interface IWorkoutRepository
     List<WorkoutExercise> GetExercises(int workoutId);
     void AddExerciseTo(WorkoutExercise workout);
     Workout GetWorkoutById(int workoutId);
+    void DeleteProduct(int id);
+
+
+    void UpdateExercise(int workoutId, int exerciseId, int sets, int reps, float weight);
 }

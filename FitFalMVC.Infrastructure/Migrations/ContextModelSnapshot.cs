@@ -22,38 +22,6 @@ namespace FitFalMVC.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BodyPartExercise", b =>
-                {
-                    b.Property<int>("BodyPartId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ExercisesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BodyPartId", "ExercisesId");
-
-                    b.HasIndex("ExercisesId");
-
-                    b.ToTable("BodyPartExercise");
-                });
-
-            modelBuilder.Entity("FitFalMVC.Domain.Model.BodyPart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BodyParts");
-                });
-
             modelBuilder.Entity("FitFalMVC.Domain.Model.Exercise", b =>
                 {
                     b.Property<int>("Id")
@@ -207,6 +175,9 @@ namespace FitFalMVC.Infrastructure.Migrations
 
                     b.Property<int>("Sets")
                         .HasColumnType("int");
+
+                    b.Property<float>("Weight")
+                        .HasColumnType("real");
 
                     b.Property<int>("WorkoutId")
                         .HasColumnType("int");
@@ -416,21 +387,6 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("BodyPartExercise", b =>
-                {
-                    b.HasOne("FitFalMVC.Domain.Model.BodyPart", null)
-                        .WithMany()
-                        .HasForeignKey("BodyPartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FitFalMVC.Domain.Model.Exercise", null)
-                        .WithMany()
-                        .HasForeignKey("ExercisesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("FitFalMVC.Domain.Model.MealProduct", b =>

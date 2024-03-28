@@ -16,7 +16,7 @@ public class ProductController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        var model = _productService.GetAllProductForList(2,1,"");
+        var model = _productService.GetAllProductForList(10,1,"");
         return View(model);
         
     }

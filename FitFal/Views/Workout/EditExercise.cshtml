@@ -1,0 +1,46 @@
+@model FitFalMVC.Application.ViewModels.ExerciseVmDirector.ListExerciseForListVm
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+<form asp-action="AddExercise" asp-controller="Workout" method="post">
+    <div class="row">
+        @Html.TextBox("sets", null, new { placeholder = "Ilość serii", type = "number", id = "setsField" })
+        @Html.TextBox("reps", null, new { placeholder = "Ilość powtórzeń", type = "number", id = "repsField" })
+        @Html.TextBox("weight", null, new { placeholder = "Cieżar", type = "number", id = "weightField" })
+<button id="addExerciseButton" type="button" onclick="EditExerciseToWorkout()">Edytuj ćwiczenie</button>
+
+        @* <a id="addExerciseLink" href="#" onclick="addExerciseToWorkout()">Dodaj ćwiczenie</a> *@
+    </div>
+
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function updateLink() {
+            var exerciseId = document.getElementById("exerciseList").value;
+            var addExerciseLink = document.getElementById("addExerciseLink");
+            if (exerciseId !== "") {
+                addExerciseLink.href = "/Workout/EditExerciseToWorkout?workoutId=@TempData["WorkoutId"]&exerciseId=" + exerciseId+ "&sets=" + sets + "&reps=" + reps+ "&weight=" + weight;
+            } else {
+                addExerciseLink.href = "#"; // Jeśli nie wybrano żadnego ćwiczenia, link jest nieaktywny
+            }
+        }
+
+        function EditExerciseToWorkout() {
+            var sets = document.getElementById("setsField").value;
+            var reps = document.getElementById("repsField").value;
+            var weight = document.getElementById("weightField").value;
+            var exerciseId ="@TempData["ExerciseId"]"; 
+            var workoutId = "@TempData["WorkoutId"]"; 
+            if (exerciseId !== "" && workoutId !== "" && sets !== "" && reps !== "") {
+                var url = "/Workout/EditExerciseToWorkout?workoutId=" + workoutId + "&exerciseId=" + exerciseId + "&sets=" + sets + "&reps=" + reps + "&weight=" + weight;
+                window.location.href = url;
+            } 
+        }
+    </script>
+}

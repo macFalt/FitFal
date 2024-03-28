@@ -29,7 +29,7 @@ public class WorkoutController : Controller
     public IActionResult AddExercise(int workoutId)
     {
         TempData["WorkoutId"] = workoutId;
-        var model = _exerciseService.GetAllExercisesForList(2, 1, "");
+        var model = _exerciseService.GetAllExercisesForList2();
         return View(model);
     }
     
@@ -44,23 +44,46 @@ public class WorkoutController : Controller
         return View("Index", model);
     }
     
+ 
     
-    [HttpPost]
-    public IActionResult  AddExerciseToWorkout(int workoutId, int exerciseId)
+    
+    [HttpGet]
+    public IActionResult  AddExerciseToWorkout(int workoutId, int exerciseId, int sets, int reps,float weight)
     {
-        _workoutService.AddExerciseToWorkout(workoutId, exerciseId);
-        var workout = _workoutService.GetWorkoutById(workoutId);
-        return View("Index", workout);
-    
+        _workoutService.AddExerciseToWorkout(workoutId, exerciseId,sets,reps,weight);
+        var model = _workoutService.GetWorkoutById(workoutId);
+        var xxx = model.StartWorkout;
+        var model2 = _workoutService.GetWorkout(xxx);
+        return View("Index", model2);
+
+    }
+
+    public IActionResult Delete(int id)
+    {
+        _workoutService.DeleteProduct(id);
+        return RedirectToAction("Index");    }
+
+    public IActionResult Details(int id)
+    {
+        var model = _exerciseService.GetExerciseDetailByWorkoutExercise(id);
+        return View(model);   
+    }
+
+
+    public IActionResult EditExercise(int exerciseId, int workoutid)
+    {
+        TempData["WorkoutId"] = workoutid;
+        TempData["ExerciseId"] = exerciseId;
+
+        return View();    
     }
     
-    
-    // [HttpPost]
-    // public IActionResult  AddExerciseToWorkout(WorkoutDetailVm workoutDetailVm)
-    // {
-    //     _workoutService.AddExerciseToWorkout(workoutDetailVm);
-    //     var workout = _workoutService.GetWorkoutById(workoutDetailVm.Id);
-    //     return View("Index", workoutDetailVm);
-    //
-    // }
+    [HttpGet]
+    public IActionResult EditExerciseToWorkout(int workoutId, int exerciseId, int sets, int reps, float weight)
+    {
+        _workoutService.EditExerciseToWorkout(workoutId, exerciseId,sets,reps,weight);
+        var model = _workoutService.GetWorkoutById(workoutId);
+        var xxx = model.StartWorkout;
+        var model2 = _workoutService.GetWorkout(xxx);
+        return View("Index", model2);    }
 }

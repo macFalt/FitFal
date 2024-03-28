@@ -6,4 +6,5 @@ public interface IExerciseRepository
 {
     IQueryable<Exercise> GetAllExercises();
     Exercise GetDetail(int id);
+    Exercise GetDetailByWorkoutExercise(int id);
 }

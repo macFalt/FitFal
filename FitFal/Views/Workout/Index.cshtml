@@ -29,9 +29,8 @@ $(function () {
     
     $("#createtreningPlanBtn").click(function () {
        var selectedDate = $("#workoutDayId").val();
-       var description = $("#workoutDes").val(); // Pobierz wartość pola Description
+       var description = $("#workoutDes").val(); 
        window.location.href = "/Workout/AddWorkoutToDay?selectedDate=" + selectedDate + "&description=" + description;
-        // window.location.href = "/Workout/AddWorkoutToDay?selectedDate=" + selectedDate;
     });
 });
 
@@ -43,24 +42,34 @@ $(function () {
     <label for="datepicker">Wybierz datę:</label>
     <input id="workoutDayId" name="selectedDate" type="text" class="datepicker"/>
     <label>Rodzaj treningu:</label>
-    <input id="workoutDes" name="description" type="text" />
+    <input id="workoutDes" name="description" type="text"/>
     <button type="button" id="createtreningPlanBtn">Stwórz dzień treningowy</button>
 }
 
-@* <p> *@
-@*     <a asp-action="AddExercise">Dodaj ćwiczenie</a> *@
-@* </p> *@
 
 <form asp-action="Index" asp-controller="Workout" method="post">
     <div class="row">
-        <table class="table">
-            @Html.ActionLink("Dodaj ćwiczenie","AddExercise",new {workoutId=Model.Id})|
+        <table>
+            <td>Rodzaj treningu: @Model.Description</td>
+            <td>Data: @(Model.StartWorkout != null && Model.StartWorkout != DateTime.MinValue ? Model.StartWorkout.ToShortDateString() : "")</td>
+        </table>
+        <button type="button" onclick="location.href='@Url.Action("AddExercise", new { workoutId = Model.Id })'">Dodaj ćwiczenie</button>
 
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nazwa ćwiczenia</th>
+                <th>Serie</th>
+                <th>Powtórzenia</th>
+                <th>Ciężar</th>
+            </tr>
+            </thead>
             <tbody>
+
             @if (Model.Exercises == null || !Model.Exercises.Any())
             {
                 <tr>
-                    <td colspan="2">Brak ćwiczeń</td>
+                    <td colspan="3">Brak ćwiczeń</td>
                 </tr>
             }
             else
@@ -68,14 +77,20 @@ $(function () {
                 @foreach (var exercise in Model.Exercises)
                 {
                     <tr>
+                        <td>@exercise.Name</td>
+                        <td>@exercise.Sets</td>
+                        <td>@exercise.Reps</td>
+                        <td>@exercise.Weight</td>
                         <td>
-                            @Html.DisplayFor(modelWorkout => exercise.Name)
+                            @Html.ActionLink("Edytuj","EditExercise",new {exerciseId=exercise.Id,workoutId=Model.Id})|
+                            @Html.ActionLink("Szczegóły", "Details", new { id = exercise.Id })|
+                            @Html.ActionLink("Usuń", "Delete", new { id = exercise.Id })
                         </td>
                     </tr>
                 }
             }
             </tbody>
         </table>
-                    
     </div>
+
 </form>

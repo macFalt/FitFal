@@ -17,4 +17,6 @@ public class WorkoutExercise
     public int Sets { get; set; }
 
     public int Reps { get; set; }
+
+    public float Weight { get; set; }
 }
