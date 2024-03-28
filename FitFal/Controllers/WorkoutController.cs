@@ -1,4 +1,5 @@
 using FitFalMVC.Application.Interfaces;
+using FitFalMVC.Application.ViewModels.ExerciseVmDirector;
 using FitFalMVC.Application.ViewModels.WorkoutVmDirector;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,12 +27,21 @@ public class WorkoutController : Controller
         var model = _workoutService.GetWorkout(selectedDate);
         return View(model);    }
 
+    
+    
     public IActionResult AddExercise(int workoutId)
     {
         TempData["WorkoutId"] = workoutId;
         var model = _exerciseService.GetAllExercisesForList2();
         return View(model);
     }
+    
+    
+    
+    
+    
+    
+    
     
     public IActionResult AddWorkoutToDay(DateTime selectedDate,string description) 
     {
