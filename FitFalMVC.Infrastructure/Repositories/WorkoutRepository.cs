@@ -19,12 +19,12 @@ public class WorkoutRepository : IWorkoutRepository
         return _context.Workouts.Any(m => m.StartWorkout.Date == selectedDate.Date);
     }
 
-    public void AddWorkout(Workout workout)
-    {
-        _context.Workouts.Add(workout);
-        _context.SaveChanges();
-
-    }
+    // public void AddWorkout(Workout workout)
+    // {
+    //     _context.Workouts.Add(workout);
+    //     _context.SaveChanges();
+    //
+    // }
 
     public Workout GetWorkout(DateTime selectedDate)
     {
@@ -37,7 +37,7 @@ public class WorkoutRepository : IWorkoutRepository
     {
         return _context.WorkoutExercises
             .Where(e => e.WorkoutId == workoutId)
-            .Include(e => e.Exercise) // Dołącz ćwiczenie związane z danym WorkoutExercise
+            .Include(e => e.Exercise) 
             .ToList();
 
     }
@@ -69,30 +69,64 @@ public class WorkoutRepository : IWorkoutRepository
 
     public void UpdateExercise(int workoutId, int exerciseId, int sets, int reps,float weight)
     {
-        var exercise = _context.WorkoutExercises.FirstOrDefault(d => d.WorkoutId == workoutId);
-        // _context.Attach(exercise);
-        // _context.Entry(exercise).Property("Sets").IsModified = true;
-        // _context.Entry(exercise).Property("Reps").IsModified = true;
-        // _context.SaveChanges();
-        
-        
-        
+        // var exercise = _context.WorkoutExercises.FirstOrDefault(d => d.WorkoutId == workoutId);
+        //
+        // if (exercise != null)
+        // {
+        //     exercise.Sets = sets;
+        //     exercise.Reps = reps;
+        //     exercise.Weight = weight;
+        //
+        //     _context.Entry(exercise).Property(e => e.Sets).IsModified = true;
+        //     _context.Entry(exercise).Property(e => e.Reps).IsModified = true;
+        //     _context.Entry(exercise).Property(e => e.Weight).IsModified = true;
+        //
+        //     _context.SaveChanges();
+        // }
+    }
     
-        if (exercise != null)
+    
+    
+    
+    
+    public int AddWorkout(Workout product)
+    {
+        _context.Workouts.Add(product);
+        _context.SaveChanges();
+        return product.Id;
+
+    }
+
+    public void DeleteWorkout(int workoutid)
+    {
+        var workout = _context.Workouts.Find(workoutid);
+        if (workout!=null)
         {
-            // Aktualizuj ilość serii i powtórzeń
-            exercise.Sets = sets;
-            exercise.Reps = reps;
-            exercise.Weight = weight;
-
-            // Oznacz te pola jako zmodyfikowane, jeśli wymaga to podjęcia dodatkowych kroków w kontekście Entity Framework
-            _context.Entry(exercise).Property(e => e.Sets).IsModified = true;
-            _context.Entry(exercise).Property(e => e.Reps).IsModified = true;
-            _context.Entry(exercise).Property(e => e.Weight).IsModified = true;
-
-            // Zapisz zmiany do bazy danych
+            _context.Workouts.Remove(workout);
             _context.SaveChanges();
-        }
+        }       
+    }
+
+    public int AddExercise(WorkoutExercise exer)
+    {
+        _context.WorkoutExercises.Add(exer);
+        _context.SaveChanges();
+        return exer.Id;    }
+
+    public WorkoutExercise GetWorkoutExerciseById(int id)
+    {
+        var workoutexercise= _context.WorkoutExercises.FirstOrDefault(i=>i.WorkoutId==id);
+        return workoutexercise;    
+    }
+
+    public void UpdateProduct(WorkoutExercise workoutexercise)
+    {
+        _context.Update(workoutexercise);
+        _context.Entry(workoutexercise).Property("Sets").IsModified = true;
+        _context.Entry(workoutexercise).Property("Reps").IsModified = true;
+        _context.Entry(workoutexercise).Property("Weight").IsModified = true;
+        _context.SaveChanges();
+        
     }
 }
 

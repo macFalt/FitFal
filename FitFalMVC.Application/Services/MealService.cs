@@ -20,10 +20,10 @@ public class MealService : IMealService
         _mapper = mapper;
     }
     
-    public int AddProductMeal(int productId, int mealId,int quantity)
-    {
-        return _mealRepo.AddProductTo(productId, mealId, quantity);
-    }
+    // public int AddProductMeal(int productId, int mealId,int quantity)
+    // {
+    //     return _mealRepo.AddProductTo(productId, mealId, quantity);
+    // }
      
     public ListMealsForListVm GetAllMealsForList(DateTime selectedData)
     {
@@ -112,9 +112,12 @@ public class MealService : IMealService
         _mealRepo.DeleteProduct(id);
     }
 
-    public void GetproductForEdit(int id)
+    public int AddProductMeal(NewProductInMeal2Vm productId)
     {
-        throw new NotImplementedException();
+        // var prod = _mapper.Map<MealProduct>(productId);
+        // var id = _mealRepo.AddProd(prod);
+        // return id;
+        return 0;
     }
 }
     

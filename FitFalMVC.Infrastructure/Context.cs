@@ -12,10 +12,6 @@ namespace FitFalMVC.Infrastructure
 {
     public class Context : IdentityDbContext
     {
-
-     
-
-
         public DbSet<Product> Products  { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<MealProduct> MealProducts { get; set; }

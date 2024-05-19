@@ -4,7 +4,7 @@ using FitFalMVC.Domain.Model;
 
 namespace FitFalMVC.Application.ViewModels.WorkoutVmDirector;
 
-public class WorkoutDetailVm : IMapFrom<Workout>
+public class NewWorkoutVm : IMapFrom<Workout>
 {
     public int Id { get; set; }
     
@@ -12,21 +12,14 @@ public class WorkoutDetailVm : IMapFrom<Workout>
     
     public DateTime StartWorkout { get; set; }
     
-    // public int Sets { get; set; }
-    //
-    // public int Reps { get; set; }
-    //
-    // public float Weight { get; set; }
-    
     public List<ExerciseForListVm> Exercises { get; set; } 
 
     
+    
     public void ConfigureMapping(Profile profile)
     {
-        profile.CreateMap<Workout, WorkoutDetailVm>().ReverseMap();
+        profile.CreateMap<Workout, NewWorkoutVm>().ReverseMap();
 
-        profile.CreateMap<Exercise, ExerciseForListVm>();
-        profile.CreateMap<WorkoutExercise, WorkoutDetailVm>().ReverseMap();
     }
     
 }

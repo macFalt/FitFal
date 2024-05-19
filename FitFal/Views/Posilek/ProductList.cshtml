@@ -1,14 +1,20 @@
-@using FitFalMVC.Domain.Model
 @model FitFalMVC.Application.ViewModels.ProductVmDirector.ListProductForListVM
 
-
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Baza produktów";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
-<form asp-action="ListOfProduct" asp-controller="Meal" method="post">
+<h1>Baza produktów</h1>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<form asp-action="ProductList" asp-controller="Posilek" method="post">
     <div class="row">
         <input type="text" asp-for="SearchString" name="searchString" id="searchString"/>
         <input type="submit" value="Wyszukaj"/>
@@ -24,20 +30,20 @@
             </tr>
             </thead>
             <tbody>
-            @*   <td> *@
-            @* @Html.TextBox("quantity", null, new { placeholder = "Ilość gram", type = "number",id = "quantityField" }) *@
-            @* </td> *@
             @foreach (var product in Model.Products)
             {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelProduct => product.Name)
                     </td>
-
                     <td>
-                            <button type="button" onclick="location.href='@Url.Action("AddProductToMeal", new { productId = product.Id, mealId = TempData["MealId"] })'">Dodaj produkt do posiłku</button>
+                        @Html.ActionLink("Dodaj", "AddProductToMeal", new { mealId = @ViewBag.MealId,productId=@product.Id })
 
-                        @* <a href="#" onclick="addProductToMeal(@product.Id)">Dodaj produkt do posiłku</a> *@
+                        @* <form asp-action="AddProductToMeal" asp-controller="Posilek" method="post"> *@
+                        @*     <input type="hidden" name="mealId" value="@ViewBag.MealId"/> *@
+                        @*     <input type="hidden" name="productId" value="@product.Id"/> *@
+                        @*     <input type="submit" value="Dodaj"/> *@
+                        @* </form> *@
                     </td>
                 </tr>
             }
@@ -65,9 +71,6 @@
         </table>
         <input type="hidden" name="pageNo" id="pageNo"></input>
         <input type="hidden" name="pageSize" id="pageSize" value="10"></input>
-        <input type="hidden" name="mealId" value="@TempData["MealId"]"/>
-
-
     </div>
 </form>
 
@@ -81,17 +84,3 @@
         }
     </script>
 }
-
-@* <script type="text/javascript"> *@
-@*         function addProductToMeal(productId) { *@
-@*             var quantity = document.getElementById("quantityField").value; *@
-@*             var mealId = "@TempData["MealId"]"; *@
-@*             var url = "/Meal/AddProductToMeal?productId=" + productId + "&mealId=" + mealId + "&quantity=" + quantity; *@
-@*             window.location.href = url; *@
-@*         } *@
-@* *@
-@*         function PagerClick(index) { *@
-@*             document.getElementById("pageNo").value = index; *@
-@*             document.forms[0].submit(); *@
-@*         } *@
-@* </script> *@

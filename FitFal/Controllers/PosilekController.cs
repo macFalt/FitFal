@@ -1,0 +1,169 @@
+using FitFalMVC.Application.Interfaces;
+using FitFalMVC.Application.ViewModels.Meal2VmDirector;
+using FitFalMVC.Application.ViewModels.ProductVmDirector;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FitFal.Controllers;
+
+public class PosilekController : Controller
+{
+    private readonly IMealService2 _mealService2;
+    private readonly IProductService _productService;
+
+    public PosilekController(IMealService2 mealService, IProductService productService)
+    {
+        _mealService2 = mealService;
+        _productService = productService;
+    }
+    
+    
+    public IActionResult Index(DateTime? selectedDate)
+    {
+        if (!selectedDate.HasValue || selectedDate == DateTime.MinValue)
+        {
+            selectedDate = DateTime.Today;
+        }
+        var model = _mealService2.GetMeal(selectedDate.Value);
+        model.Data = selectedDate.Value;
+        return View(model);
+    }
+    
+    
+    [HttpGet]
+    public IActionResult AddMealToDay(DateTime mealData)
+    {
+        var model = new NewMealVm();
+        model.Data = mealData;
+        return View(model);
+    }
+    
+    [HttpPost]
+    public IActionResult AddMealToDay(NewMealVm model)
+    {
+        var id = _mealService2.AddMeal(model);
+        DateTime mealDate = model.Data;
+
+        return RedirectToAction("Index", new { selectedDate = mealDate });
+    }
+
+    public IActionResult DeleteMeal(int mealid,DateTime mealData)
+    {
+        _mealService2.DeleteMeal(mealid);
+        return RedirectToAction("Index", new { selectedDate = mealData });
+    }
+
+    [HttpGet]
+    public IActionResult AddProductToMeal(int mealId,int productId)
+    {
+        var product = _productService.GetproductForEdit(productId);
+        var model = new NewProductInMealVm()
+        {
+            MealId  = mealId,
+            ProductId = productId,
+            Calories = product.Calories,
+            Carbohydrates = product.Carbohydrates,
+            Fat = product.Fat,
+            Protein = product.Protein
+            
+        };
+        return View(model);
+    }
+    
+    [HttpPost]
+    public IActionResult  AddProductToMeal(NewProductInMealVm model)
+    {
+ 
+        bool productExists = _mealService2.DoesProductExistInMeal(model.MealId, model.ProductId);
+
+        if (!productExists)
+        {
+            _mealService2.AddProductToMeal(model);
+            var mealDate = _mealService2.GetMealDate(model.MealId);
+            return RedirectToAction("Index", new { selectedDate = mealDate });
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Produkt już istnieje w tym posiłku.";
+            return RedirectToAction("ProductList", new { mealId = model.MealId });
+        }
+        
+        // bool productExists = _mealService2.DoesProductExistInMeal(model.MealId, model.ProductId);
+        //
+        // if (!productExists)
+        // {
+        //     _mealService2.AddProductToMeal(model);
+        // }
+        // else
+        // {
+        //     TempData["ErrorMessage"] = "Produkt już istnieje w tym posiłku.";
+        //     var mealDate2 = _mealService2.GetMealDate(model.MealId);
+        //     return RedirectToAction("ProductList", new { selectedDate = mealDate2 });
+        // }
+        //
+        // var mealDate = _mealService2.GetMealDate(model.MealId);
+        // return RedirectToAction("Index", new { selectedDate = mealDate });
+
+        
+        
+        // var id = _mealService2.AddProductToMeal(model);
+        // var mealDate = _mealService2.GetMealDate(model.MealId);
+        // return RedirectToAction("Index", new { selectedDate = mealDate });
+    }
+
+    [HttpGet]
+    public IActionResult ProductList(int mealId)
+    {
+        var model = _productService.GetAllProductForList(10,1,"");
+        ViewBag.MealId = mealId;
+        return View(model);
+        
+    }
+    [HttpPost]
+    public IActionResult ProductList(int pageSize,int? pageNo,string searchString)
+    {
+        if (!pageNo.HasValue)
+        {
+            pageNo = 1;
+        }
+        if (searchString is null)
+        {
+            searchString=String.Empty;
+        }
+        var model = _productService.GetAllProductForList(pageSize,pageNo.Value,searchString);
+        return View(model);
+    }
+    
+    public IActionResult Delete(int id,DateTime mealData)
+    {
+        _mealService2.DeleteProduct(id);
+        return RedirectToAction("Index", new { selectedDate = mealData });
+    }
+    
+    
+    [HttpGet]
+    public IActionResult EditGrammage(int mealId)
+    {
+        var product = _mealService2.GetMealProductById(mealId);
+        return View(product);
+    }
+
+    [HttpPost]
+    public IActionResult EditGrammage(NewProductInMealVm model)
+    {
+        _mealService2.UpdateProduct(model);
+        var mealDate = _mealService2.GetMealDate(model.MealId);
+
+        return RedirectToAction("Index", new { selectedDate = mealDate });
+    }
+    
+
+  
+    
+    
+    
+    
+    
+    
+    
+    
+}

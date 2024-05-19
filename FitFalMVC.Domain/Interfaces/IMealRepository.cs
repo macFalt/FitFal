@@ -20,5 +20,6 @@ public interface IMealRepository
 
     IQueryable<Meal> GetAllMealsById(int mealId);
     void DeleteProduct(int id);
+    void AddProd(MealProduct product);
 }
 

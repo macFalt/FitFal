@@ -120,7 +120,12 @@ public class MealRepository : IMealRepository
 
 
 
-    
+    public void AddProd(MealProduct product)
+    {
+        _context.MealProducts.Add(product);
+
+        _context.SaveChanges();
+    }
 
 
 

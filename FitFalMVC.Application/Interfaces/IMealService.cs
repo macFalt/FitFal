@@ -5,7 +5,7 @@ namespace FitFalMVC.Application.Interfaces;
 
 public interface IMealService
 {
-     int AddProductMeal(int productId, int mealId,int quantity);
+    // int AddProductMeal(int productId, int mealId,int quantity);
 
      ListMealsForListVm GetMealById(int mealId);
      
@@ -14,5 +14,5 @@ public interface IMealService
      void AddMealsToDay(DateTime selectedData);
      void DeleteProduct(int id);
 
-     void GetproductForEdit(int id);
+     int AddProductMeal(NewProductInMeal2Vm productId);
 }

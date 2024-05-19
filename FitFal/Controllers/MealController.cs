@@ -1,5 +1,6 @@
 using FitFalMVC.Application.Interfaces;
 using FitFalMVC.Application.Services;
+using FitFalMVC.Application.ViewModels;
 using FitFalMVC.Application.ViewModels.MealVmDirector;
 using FitFalMVC.Application.ViewModels.ProductVmDirector;
 using FitFalMVC.Domain.Model;
@@ -18,36 +19,57 @@ public class MealController : Controller
         _productService = productService;
     }
 
-    
+
     public IActionResult Index(DateTime selectedDate)
     {
         if (selectedDate == DateTime.MinValue)
         {
             selectedDate = DateTime.Today;
         }
+
         var model = _mealService.GetAllMealsForList(selectedDate);
         return View(model);
     }
 
-    
-    public IActionResult AddMealsToDay(DateTime selectedDate) 
+
+    public IActionResult AddMealsToDay(DateTime selectedDate)
     {
         if (selectedDate == DateTime.MinValue)
         {
             selectedDate = DateTime.Today;
         }
-       _mealService.AddMealsToDay(selectedDate);
-       var model = _mealService.GetAllMealsForList(selectedDate);
-       return View("Index", model);
+
+        _mealService.AddMealsToDay(selectedDate);
+        var model = _mealService.GetAllMealsForList(selectedDate);
+        return View("Index", model);
     }
-    
+
     [HttpGet]
-    public IActionResult AddProductToMeal(int productId, int mealId,int quantity)
+    public IActionResult AddProductToMeal(int productId, int mealId)
     {
-            var result = _mealService.AddProductMeal(productId, mealId, quantity);
-            var meal = _mealService.GetMealById(mealId);
-            return View("Index", meal);
+        var model = new NewProductInMeal2Vm()
+        {
+            MealId = mealId,
+            ProductId = productId
+        };
+        return View(model);
     }
+
+    [HttpPost]
+    public IActionResult AddProductToMeal(NewProductInMeal2Vm model)
+    {
+        var id=_mealService.AddProductMeal(model);
+        return RedirectToAction("Index");
+    }
+
+
+    // [HttpGet]
+    // public IActionResult AddProductToMeal(int productId, int mealId,int quantity)
+    // {
+    //         var result = _mealService.AddProductMeal(productId, mealId, quantity);
+    //         var meal = _mealService.GetMealById(mealId);
+    //         return View("Index", meal);
+    // }
 
     [HttpGet]
     public IActionResult ListOfProduct(int mealId)
@@ -55,7 +77,6 @@ public class MealController : Controller
         TempData["MealId"] = mealId;
         var model = _productService.GetAllProductForList(10, 1, "");
         return View(model);
-
     }
 
     [HttpPost]
@@ -75,7 +96,6 @@ public class MealController : Controller
 
         var model = _productService.GetAllProductForList(pageSize, pageNo.Value, searchString);
         return View(model);
-
     }
 
 
@@ -83,17 +103,5 @@ public class MealController : Controller
     {
         _mealService.DeleteProduct(id);
         return RedirectToAction("Index");
-        
     }
-
-     // public IActionResult EditProduct(int id)
-     // {
-     //
-     //     return View("Index");
-     // }
-
 }
-    
-
-
-

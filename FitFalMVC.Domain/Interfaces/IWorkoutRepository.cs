@@ -5,7 +5,7 @@ namespace FitFalMVC.Domain.Interfaces;
 public interface IWorkoutRepository
 {
     bool WorkoutExistForDate(DateTime selectedDate);
-    void AddWorkout(Workout workout);
+   // void AddWorkout(Workout workout);
     Workout GetWorkout(DateTime selectedDate);
     List<WorkoutExercise> GetExercises(int workoutId);
     void AddExerciseTo(WorkoutExercise workout);
@@ -14,4 +14,14 @@ public interface IWorkoutRepository
 
 
     void UpdateExercise(int workoutId, int exerciseId, int sets, int reps, float weight);
+
+
+
+
+
+    int AddWorkout(Workout product);
+    void DeleteWorkout(int workoutid);
+    int AddExercise(WorkoutExercise exer);
+    WorkoutExercise GetWorkoutExerciseById(int id);
+    void UpdateProduct(WorkoutExercise workoutexercise);
 }

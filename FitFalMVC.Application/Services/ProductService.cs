@@ -47,7 +47,6 @@ public class ProductService : IProductService
 
     public ListProductForListVM GetAllProductForList(int pageSize,int pageNO,string searchString)
     {
-        
         var products = _productRepo.GetAllProduct().Where(p=>p.Name.StartsWith(searchString))
             .ProjectTo<FitFalMVC.Application.ViewModels.ProductVmDirector.ProductForListVM>(_mapper.ConfigurationProvider).ToList();
         var productToShow = products.Skip(pageSize * (pageNO - 1)).Take(pageSize).ToList();
@@ -59,24 +58,14 @@ public class ProductService : IProductService
             Products = productToShow,
             Count = products.Count
         };
-
         return productsList;
-        
-        
     }
-
-
-
+    
     public int AddProduct(NewProductVm product)
     {
         var prod = _mapper.Map<Product>(product);
         var id = _productRepo.AddProduct(prod);
         return id;
-        
     }
-
-    public ProductDetailVm GetProductById(int customerId)
-    {
-        throw new NotImplementedException();
-    }
+    
 }

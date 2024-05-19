@@ -1,0 +1,111 @@
+@model FitFalMVC.Application.ViewModels.Meal2VmDirector.MealDetailsVm
+
+
+@{
+    ViewBag.Title = "Dziennik dietetyczny";
+    Layout = "_Layout";
+}
+
+<h1>Dziennik dietetyczny</h1>
+
+@* @if (TempData["ErrorMessage"] != null) *@
+@* { *@
+@*     <div class="alert alert-danger"> *@
+@*         @TempData["ErrorMessage"] *@
+@*     </div> *@
+@* } *@
+
+<form id="mealForm" asp-action="Index" asp-controller="Posilek" method="get">
+    <div class="row">
+        <label for="mealDayId">Wybierz datę:</label>
+        @{
+            string startDateValue = Model.Data != default(DateTime) ? Model.Data.ToString("yyyy-MM-dd") : "";
+        }
+        <input id="mealDayId" name="selectedDate" type="date" value="@startDateValue"/>
+        <button type="button" onclick="location.href='@Url.Action("AddMealToDay", new { mealData = startDateValue })'">Stwórz nowy posiłek</button>
+
+        <table class="table">
+            <tbody>
+
+            @if (Model.Meals == null || !Model.Meals.Any())
+            {
+                <p>Brak posiłków na wybraną datę</p>
+            }
+            else
+            {
+                foreach (var meal in Model.Meals)
+                {
+                    var totalCaloriesForMeal = meal.Products != null ? Math.Round(meal.Products.Sum(product => product.Calories * product.Grammage / 100.0), 2) : 0;
+                    var totalProteinForMeal = meal.Products != null ? Math.Round(meal.Products.Sum(product => product.Protein * product.Grammage / 100.0), 2) : 0;
+                    var totalFatForMeal = meal.Products != null ? Math.Round(meal.Products.Sum(product => product.Fat * product.Grammage / 100.0), 2) : 0;
+                    var totalCarboForMeal = meal.Products != null ? Math.Round(meal.Products.Sum(product => product.Carbohydrates * product.Grammage / 100.0), 2) : 0;
+
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th> @meal.Name </th>
+                            <th>Gramatura</th>
+                            <th>Kalorie</th>
+                            <th>Białko</th>
+                            <th>Tłuszcz</th>
+                            <th>Węglowodany</th>
+                            <th>
+                                <button type="button" onclick="location.href='@Url.Action("ProductList", new { mealId = meal.Id })'">Dodaj produkt</button>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if (meal.Products == null || !meal.Products.Any())
+                        {
+                            <tr>
+                                <td colspan="2">Brak produktów w tym posiłku</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var product in meal.Products)
+                            {
+                                var calculatedCalories = Math.Round(product.Calories * product.Grammage / 100.0, 2);
+                                var calculatedProtein = Math.Round(product.Protein * product.Grammage / 100.0, 2);
+                                var calculatedCFat = Math.Round(product.Fat * product.Grammage / 100.0, 2);
+                                var calculatedCarbo = Math.Round(product.Carbohydrates * product.Grammage / 100.0, 2);
+                                <tr>
+                                    <td>@Html.DisplayFor(modelProduct => product.Name)</td>
+                                    <td>@Html.DisplayFor(modelProduct => product.Grammage)g</td>
+                                    <td>@Html.DisplayFor(modelProduct => calculatedCalories)Kcal</td>
+                                    <td>@Html.DisplayFor(modelProduct => calculatedProtein)</td>
+                                    <td>@Html.DisplayFor(modelProduct => calculatedCFat)</td>
+                                    <td>@Html.DisplayFor(modelProduct => calculatedCarbo)</td>
+                                    <td>
+                                        @Html.ActionLink("Edytuj", "EditGrammage", new { mealId = meal.Id })|
+                                        @Html.ActionLink("Usuń", "Delete", new { id = product.Id ,mealData = startDateValue})
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    <tr>
+                                                    <th>Podsumowanie</th>
+                                                    <td></td>
+                                                    <td>@totalCaloriesForMeal Kcal</td>
+                                                    <td>@totalProteinForMeal</td>
+                                                    <td>@totalFatForMeal</td>
+                                                    <td>@totalCarboForMeal</td>
+                                                    <td></td>
+                                                </tr>
+                        <td>
+                            <button type="button" onclick="location.href='@Url.Action("DeleteMeal", new { mealId = meal.Id, mealData = startDateValue })'">Usuń Posiłek</button>
+                        </td>
+                        </tbody>
+                    </table>
+                }
+            }
+        </table>
+    </div>
+</form>
+
+<script>
+    document.getElementById("mealDayId").addEventListener("change", function() {
+        document.getElementById("mealForm").submit(); 
+    });
+</script>

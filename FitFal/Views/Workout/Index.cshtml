@@ -9,52 +9,30 @@
 
 <h1>Dziennik treningowy</h1>
 
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <script>
-$(function () {
-    $(".datepicker").datepicker({
-        dateFormat: 'yy-mm-dd',
-        onSelect: function (dateText, inst) {
-            $("#workoutDayId").val(dateText);
-            window.location.href = "/Workout/Index?selectedDate=" + dateText;
-        }              
-    });   
-    
-                var selectedDateFromQueryString = new URLSearchParams(window.location.search).get('selectedDate');
-                if (selectedDateFromQueryString) {
-                    $("#workoutDayId").val(selectedDateFromQueryString);
-                }
-    
-    $("#createtreningPlanBtn").click(function () {
-       var selectedDate = $("#workoutDayId").val();
-       var description = $("#workoutDes").val(); 
-       window.location.href = "/Workout/AddWorkoutToDay?selectedDate=" + selectedDate + "&description=" + description;
-    });
-});
-
-</script>
-}
-
-@using (Html.BeginForm("AddWorkoutToDay", "Workout", FormMethod.Post))
-{
-    <label for="datepicker">Wybierz datę:</label>
-    <input id="workoutDayId" name="selectedDate" type="text" class="datepicker"/>
-    <label>Rodzaj treningu:</label>
-    <input id="workoutDes" name="description" type="text"/>
-    <button type="button" id="createtreningPlanBtn">Stwórz dzień treningowy</button>
-}
-
-
-<form asp-action="Index" asp-controller="Workout" method="post">
+@* <p> *@
+@*     <a asp-action="AddWorkoutToDay">Stwórz nowy trening</a> *@
+@* </p> *@
+<form id="workoutForm" asp-action="Index" asp-controller="Workout" method="get">
     <div class="row">
+        <label for="workoutDayId">Wybierz datę:</label>
+        @{
+            string startDateValue = Model.StartWorkout != default(DateTime) ? Model.StartWorkout.ToString("yyyy-MM-dd") : "";
+        }
+        <input id="workoutDayId" name="selectedDate" type="date" value="@startDateValue"/>
+        <button type="button" onclick="location.href='@Url.Action("AddWorkoutToDay", new { workoutData = startDateValue })'">Stwórz nowy trening</button>
+
         <table>
             <td>Rodzaj treningu: @Model.Description</td>
-            <td>Data: @(Model.StartWorkout != null && Model.StartWorkout != DateTime.MinValue ? Model.StartWorkout.ToShortDateString() : "")</td>
-        </table>
-        <button type="button" onclick="location.href='@Url.Action("AddExercise", new { workoutId = Model.Id })'">Dodaj ćwiczenie</button>
+            <td>Data: @startDateValue</td>
 
+            @* <button type="button" onclick="location.href='@Url.Action("AddExerciseToWorkout", new { workoutId = Model.Id })'">Dodaj ćwiczenie</button> *@
+
+            @if (Model.Id != 0)
+            {
+                <button type="button" onclick="location.href='@Url.Action("AddExerciseToWorkout", new { workoutId = Model.Id })'">Dodaj ćwiczenie</button>
+            }
+
+        </table>
         <table class="table">
             <thead>
             <tr>
@@ -82,7 +60,7 @@ $(function () {
                         <td>@exercise.Reps</td>
                         <td>@exercise.Weight</td>
                         <td>
-                            @Html.ActionLink("Edytuj","EditExercise",new {exerciseId=exercise.Id,workoutId=Model.Id})|
+                            @Html.ActionLink("Edytuj", "EditExercise2", new { workoutId = Model.Id })|
                             @Html.ActionLink("Szczegóły", "Details", new { id = exercise.Id })|
                             @Html.ActionLink("Usuń", "Delete", new { id = exercise.Id })
                         </td>
@@ -90,7 +68,18 @@ $(function () {
                 }
             }
             </tbody>
-        </table>
-    </div>
 
+        </table>
+        @* <button type="button" onclick="location.href='@Url.Action("DeleteWorkout", new { workoutId = Model.Id, workoutData = startDateValue })'">Usuń trening</button> *@
+        @if (Model.Id != 0)
+        {
+            <button type="button" onclick="location.href='@Url.Action("DeleteWorkout", new { workoutId = Model.Id, workoutData = startDateValue })'">Usuń trening</button>
+        }
+    </div>
 </form>
+
+<script>
+    document.getElementById("workoutDayId").addEventListener("change", function() {
+        document.getElementById("workoutForm").submit(); 
+    });
+</script>
