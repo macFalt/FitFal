@@ -24,7 +24,6 @@ public class ProductForListVm : IMapFrom<Product>
     public void ConfigureMapping(Profile profile)
     {
         profile.CreateMap<Product, ProductForListVm>().ReverseMap();
-        // profile.CreateMap<MealProduct, ProductForListVm>().ReverseMap();
         profile.CreateMap<MealProduct, ProductForListVm>()
             .ForMember(dest => dest.Grammage, opt => opt.MapFrom(src => src.Grammage))
             .ReverseMap();

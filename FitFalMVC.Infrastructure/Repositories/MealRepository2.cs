@@ -22,15 +22,6 @@ public class MealRepository2 : IMealRepository2
             .ToList(); 
     }
 
-    // public List<MealProduct> GetProduct(int mealId)
-    // {
-    //     return _context.MealProducts
-    //         .Where(e => e.MealsId == mealId)
-    //         .Include(e => e.Product) 
-    //         .ToList();  
-    //     
-    // }
-
     public List<Product> GetProduct(int mealId)
     {
         return _context.MealProducts

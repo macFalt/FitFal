@@ -9,7 +9,7 @@ public class MealForListVm : IMapFrom<Meal>
     public int Id { get; set; }
     public string Name  { get; set; }
     
-    public DateTime Data { get; set; }
+    //public DateTime Data { get; set; }
     
     public List<ProductForListVm> Products { get; set; } 
 

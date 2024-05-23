@@ -7,12 +7,9 @@ namespace FitFalMVC.Application.ViewModels.Meal2VmDirector;
 
 public class MealDetailsVm : IMapFrom<Meal>
 {
-    public int Id { get; set; }
-    public int MealId { get; set; }
-
+    //public int Id { get; set; }
+   // public int MealId { get; set; }
      public DateTime Data { get; set; }
-    
-    
     public List<MealForListVm> Meals { get; set; } 
 
     

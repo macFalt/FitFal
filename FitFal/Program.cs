@@ -25,12 +25,13 @@ using FluentValidation.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+                       throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<Context>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<Context>();
 
 
@@ -52,6 +53,36 @@ builder.Services.AddTransient<IMealService2, MealService2>();
 builder.Services.AddControllersWithViews().AddFluentValidation();
 builder.Services.AddRazorPages();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("CanAddNewCustomer", policy =>
+    {
+        policy.RequireClaim("ViewCustomer", "AddNewCustomer");
+    });
+});
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 8;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredUniqueChars = 1;
+    options.SignIn.RequireConfirmedEmail = false;
+    options.User.RequireUniqueEmail = true;
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("CanEditClient", policy =>
+    {
+        policy.RequireClaim("EditClient");
+        policy.RequireClaim("ShowClient");
+        policy.RequireRole("Admin");
+    });
+});
+
+
 builder.Services.AddTransient<IValidator<NewProductVm>, NewProductVm.NewProductValidator>();
 var app = builder.Build();
 
@@ -72,6 +103,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
