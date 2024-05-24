@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FitFalMVC.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Migration2703 : Migration
+    public partial class Migration2405 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,6 +30,8 @@ namespace FitFalMVC.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Weight = table.Column<float>(type: "real", nullable: false),
+                    Height = table.Column<float>(type: "real", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -229,11 +231,19 @@ namespace FitFalMVC.Infrastructure.Migrations
                     MealId = table.Column<int>(type: "int", nullable: false),
                     ProductsId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    Grammage = table.Column<int>(type: "int", nullable: false)
+                    Grammage = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MealProducts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MealProducts_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MealProducts_Meals_MealId",
                         column: x => x.MealId,
@@ -258,11 +268,19 @@ namespace FitFalMVC.Infrastructure.Migrations
                     ExerciseId = table.Column<int>(type: "int", nullable: false),
                     Sets = table.Column<int>(type: "int", nullable: false),
                     Reps = table.Column<int>(type: "int", nullable: false),
-                    Weight = table.Column<float>(type: "real", nullable: false)
+                    Weight = table.Column<float>(type: "real", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WorkoutExercises", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkoutExercises_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_WorkoutExercises_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
@@ -317,6 +335,11 @@ namespace FitFalMVC.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MealProducts_ApplicationUserId",
+                table: "MealProducts",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MealProducts_MealId",
                 table: "MealProducts",
                 column: "MealId");
@@ -325,6 +348,11 @@ namespace FitFalMVC.Infrastructure.Migrations
                 name: "IX_MealProducts_ProductId",
                 table: "MealProducts",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkoutExercises_ApplicationUserId",
+                table: "WorkoutExercises",
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkoutExercises_ExerciseId",
@@ -365,13 +393,13 @@ namespace FitFalMVC.Infrastructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Meals");
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Exercises");

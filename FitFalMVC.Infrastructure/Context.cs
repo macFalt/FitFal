@@ -11,13 +11,15 @@ using Microsoft.AspNetCore.Identity;
 
 namespace FitFalMVC.Infrastructure
 {
-    public class Context : IdentityDbContext
+    public class Context : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Product> Products  { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<MealProduct> MealProducts { get; set; }
 
         public DbSet<Exercise> Exercises { get; set; }
+        
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         public DbSet<Workout> Workouts { get; set; }
         

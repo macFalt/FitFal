@@ -22,10 +22,20 @@ public class MealRepository2 : IMealRepository2
             .ToList(); 
     }
 
-    public List<Product> GetProduct(int mealId)
+    // public List<Product> GetProduct(int mealId)
+    // {
+    //     return _context.MealProducts
+    //         .Where(e => e.MealsId == mealId)
+    //         .Include(e => e.Product)
+    //         .Select(e => e.Product)
+    //         .ToList();    
+    // }
+    
+    public List<Product> GetProduct(int mealId,string userId)
     {
         return _context.MealProducts
             .Where(e => e.MealsId == mealId)
+            .Where(mp => mp.UserId == userId)
             .Include(e => e.Product)
             .Select(e => e.Product)
             .ToList();    
@@ -61,6 +71,7 @@ public class MealRepository2 : IMealRepository2
     {
         prod.Meal=_context.Meals.Include(m => m.MealProducts).FirstOrDefault(m => m.Id == prod.MealsId);
         prod.Product=_context.Products.Find(prod.ProductsId);
+        prod.ApplicationUser = _context.ApplicationUsers.Find(prod.UserId);
         _context.MealProducts.Add(prod);
         _context.SaveChanges();
         return prod.Id;     }

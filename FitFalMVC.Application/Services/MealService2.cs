@@ -23,7 +23,38 @@ public class MealService2 : IMealService2
         _mapper = mapper;
     }
     
-    public MealDetailsVm GetMeal(DateTime selectedDate)
+    // public MealDetailsVm GetMeal(DateTime selectedDate)
+    // {
+    //     var meals = _mealRepo.GetMeal(selectedDate); 
+    //
+    //     var mealVm = new MealDetailsVm();
+    //     mealVm.Meals = new List<MealForListVm>();
+    //     mealVm.Data = selectedDate;
+    //
+    //     foreach (var meal in meals)
+    //     {
+    //         var mealForListVm = _mapper.Map<MealForListVm>(meal);
+    //         mealVm.Meals.Add(mealForListVm);
+    //
+    //         var products = _mealRepo.GetProduct(meal.Id);
+    //
+    //         if (products != null && products.Any())
+    //         {
+    //             mealForListVm.Products = new List<ProductForListVm>();
+    //
+    //             foreach (var product in products)
+    //             {
+    //                 var productVm = _mapper.Map<ProductForListVm>(product);
+    //                 productVm.Grammage = _mealRepo.GetGrammageForProduct(product.Id,meal.Id);
+    //                 mealForListVm.Products.Add(productVm);
+    //             }
+    //         }
+    //     }
+    //
+    //     return mealVm;
+    // }
+
+    public MealDetailsVm GetMeal(string userId,DateTime selectedDate)
     {
         var meals = _mealRepo.GetMeal(selectedDate); 
 
@@ -36,7 +67,7 @@ public class MealService2 : IMealService2
             var mealForListVm = _mapper.Map<MealForListVm>(meal);
             mealVm.Meals.Add(mealForListVm);
 
-            var products = _mealRepo.GetProduct(meal.Id);
+            var products = _mealRepo.GetProduct(meal.Id,userId);
 
             if (products != null && products.Any())
             {
@@ -53,7 +84,7 @@ public class MealService2 : IMealService2
 
         return mealVm;
     }
-
+    
     public int AddMeal(NewMealVm model)
     {
         var meal = _mapper.Map<Meal>(model);

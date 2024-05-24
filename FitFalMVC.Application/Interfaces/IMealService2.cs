@@ -7,7 +7,8 @@ namespace FitFalMVC.Application.Interfaces;
 
 public interface IMealService2
 {
-    MealDetailsVm GetMeal(DateTime selectedDate);
+    // MealDetailsVm GetMeal(DateTime selectedDate);
+    MealDetailsVm GetMeal(string userId, DateTime selectedDate);
     int AddMeal(NewMealVm model);
     void DeleteMeal(int mealid);
     int AddProductToMeal(NewProductInMealVm model);

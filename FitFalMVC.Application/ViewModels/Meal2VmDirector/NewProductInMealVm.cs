@@ -23,6 +23,10 @@ public class NewProductInMealVm : IMapFrom<MealProduct>
     public float Fat { get; set; }
 
     public float Carbohydrates { get; set; }
+    
+    public string ApplicationUser { get; set; }
+    public string UserId { get; set; }
+
 
 
     
@@ -37,7 +41,9 @@ public class NewProductInMealVm : IMapFrom<MealProduct>
             .ForMember(dest => dest.MealsId, opt => opt.MapFrom(src => src.MealId))
             .ForMember(dest => dest.ProductsId, opt => opt.MapFrom(src => src.ProductId))
             .ForMember(dest => dest.Grammage, opt => opt.MapFrom(src => src.Grammage))
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id)).ReverseMap();
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+            .ReverseMap();
         profile.CreateMap<Product, NewProductInMealVm>()
             .ForMember(dest => dest.Calories, sou => sou.MapFrom(src => src.Calories))
             .ForMember(dest => dest.Protein, sou => sou.MapFrom(src => src.Protein))

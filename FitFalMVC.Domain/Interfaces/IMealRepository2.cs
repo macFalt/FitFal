@@ -7,8 +7,8 @@ public interface IMealRepository2
     List<Meal> GetMeal(DateTime selectedDate);
     // List<MealProduct> GetProduct(int mealId);
 
-    List<Product> GetProduct(int mealId);
-
+    // List<Product> GetProduct(int mealId);
+    List<Product> GetProduct(int mealId, string userId);
     int GetGrammageForProduct(int productId, int mealId);
 
     int AddMeal(Meal meal);
