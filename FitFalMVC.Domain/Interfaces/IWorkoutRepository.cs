@@ -6,8 +6,8 @@ public interface IWorkoutRepository
 {
     bool WorkoutExistForDate(DateTime selectedDate);
    // void AddWorkout(Workout workout);
-    Workout GetWorkout(DateTime selectedDate);
-    List<WorkoutExercise> GetExercises(int workoutId);
+    Workout GetWorkout(DateTime selectedDate, string userId);
+    List<WorkoutExercise> GetExercises(int workoutId, string userId);
     void AddExerciseTo(WorkoutExercise workout);
     Workout GetWorkoutById(int workoutId);
     void DeleteProduct(int id);

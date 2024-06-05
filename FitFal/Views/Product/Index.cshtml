@@ -6,10 +6,15 @@
 }
 
 <h1>Baza produktów</h1>
-
-<p>
-    <a asp-action="AddProduct">Stwórz nowy produkt</a>
-</p>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="AddProduct">Stwórz nowy produkt</a>
+    </p>
+}
+@* <p> *@
+@*     <a asp-action="AddProduct">Stwórz nowy produkt</a> *@
+@* </p> *@
 <form asp-action="Index" asp-controller="Product" method="post">
     <div class="row">
         <input type="text" asp-for="SearchString" name="searchString" id="searchString"/>
@@ -29,23 +34,27 @@
             @foreach (var product in Model.Products)
             {
                 <tr>
-                    @* <td> *@
-                    @*     @Html.DisplayFor(modelProduct=>product.Id) *@
-                    @* </td> *@
-        
                     <td>
-                        @Html.DisplayFor(modelProduct=>product.Name)
+                        @Html.DisplayFor(modelProduct => product.Name)
                     </td>
                     <td>
-                        @Html.ActionLink("Edytuj","EditProduct",new {id=product.Id})|
-                        @Html.ActionLink("Szczegóły","Details",new {id=product.Id})|
-                        @Html.ActionLink("Usuń","Delete",new {id=product.Id})
+                        @if ((bool)ViewBag.IsAdmin || product.UserId == (string)ViewBag.UserId)
+                        {
+                            @Html.ActionLink("Edytuj", "EditProduct", new { id = product.Id })
+                        }
+                        @* @Html.ActionLink("Edytuj", "EditProduct", new { id = product.Id })| *@
+                        @Html.ActionLink("Szczegóły", "Details", new { id = product.Id })
+                        @* @Html.ActionLink("Usuń", "Delete", new { id = product.Id }) *@
+                        @if ((bool)ViewBag.IsAdmin || product.UserId == (string)ViewBag.UserId)
+                        {
+                            @Html.ActionLink("Usuń", "Delete", new { id = product.Id })
+                        }
                     </td>
                 </tr>
             }
             </tbody>
         </table>
-            
+
     </div>
     <div class="row">
         <table>
@@ -80,4 +89,3 @@
         }
     </script>
 }
-

@@ -18,25 +18,22 @@ public class WorkoutRepository : IWorkoutRepository
     {
         return _context.Workouts.Any(m => m.StartWorkout.Date == selectedDate.Date);
     }
-
-    // public void AddWorkout(Workout workout)
-    // {
-    //     _context.Workouts.Add(workout);
-    //     _context.SaveChanges();
-    //
-    // }
-
-    public Workout GetWorkout(DateTime selectedDate)
+    
+    public Workout GetWorkout(DateTime selectedDate,string userId)
     {
-        var workout = _context.Workouts.FirstOrDefault(i => i.StartWorkout == selectedDate);
+        // var workout = _context.Workouts.FirstOrDefault(i => i.StartWorkout == selectedDate);
+        var workout = _context.Workouts.FirstOrDefault(i => i.StartWorkout == selectedDate && i.UserId == userId);
         return workout;
+        
+        
     }
 
 
-    public List<WorkoutExercise> GetExercises(int workoutId)
+    public List<WorkoutExercise> GetExercises(int workoutId,string userId)
     {
         return _context.WorkoutExercises
             .Where(e => e.WorkoutId == workoutId)
+            .Where(e => e.UserId == userId)
             .Include(e => e.Exercise) 
             .ToList();
 
@@ -91,6 +88,8 @@ public class WorkoutRepository : IWorkoutRepository
     
     public int AddWorkout(Workout product)
     {
+        product.ApplicationUser = _context.ApplicationUsers.Find(product.UserId);
+
         _context.Workouts.Add(product);
         _context.SaveChanges();
         return product.Id;
@@ -109,6 +108,9 @@ public class WorkoutRepository : IWorkoutRepository
 
     public int AddExercise(WorkoutExercise exer)
     {
+        exer.Workouts=_context.Workouts.Include(m => m.WorkoutExercises).FirstOrDefault(m => m.Id == exer.WorkoutId);
+        exer.Exercise=_context.Exercises.Find(exer.ExerciseId);
+        exer.ApplicationUser = _context.ApplicationUsers.Find(exer.UserId);
         _context.WorkoutExercises.Add(exer);
         _context.SaveChanges();
         return exer.Id;    }

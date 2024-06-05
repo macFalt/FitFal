@@ -21,6 +21,10 @@ namespace FitFalMVC.Domain.Model
 
         public float Carbohydrates { get; set; }
         
+        public string UserId { get; set; }
+    
+        public ApplicationUser ApplicationUser { get; set; }
+        
         public ICollection<MealProduct> MealProducts { get; set; }
         
 

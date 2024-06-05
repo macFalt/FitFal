@@ -44,6 +44,16 @@ public class ProductService : IProductService
         _productRepo.DeleteProduct(id);
     }
 
+    public bool CanUserEditProduct(int productId, string userId, bool isAdmin)
+    {
+        
+        var product = _productRepo.GetProductById(productId);
+        if (product == null) return false;
+
+        return isAdmin || product.UserId == userId;
+        
+    }
+
 
     public ListProductForListVM GetAllProductForList(int pageSize,int pageNO,string searchString)
     {

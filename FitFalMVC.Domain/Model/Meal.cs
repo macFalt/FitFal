@@ -15,6 +15,10 @@ namespace FitFalMVC.Domain.Model
         public DateTime Data { get; set; }
 
         public ICollection<MealProduct> MealProducts { get; set; }
+        
+        public string UserId { get; set; }
+    
+        public ApplicationUser ApplicationUser { get; set; }
     
         
     }

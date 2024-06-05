@@ -5,7 +5,7 @@ namespace FitFalMVC.Application.Interfaces;
 
 public interface IWorkoutService
 {
-    WorkoutDetailVm GetWorkout(DateTime selectedDate);
+    WorkoutDetailVm GetWorkout(string userId, DateTime selectedDate);
     
     // WorkoutDetailVm GetWorkoutById(int workoutId);
     void DeleteProduct(int id);

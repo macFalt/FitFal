@@ -12,6 +12,9 @@ public class NewWorkoutVm : IMapFrom<Workout>
     
     public DateTime StartWorkout { get; set; }
     
+    public string ApplicationUser { get; set; }
+    public string UserId { get; set; }
+    
     public List<ExerciseForListVm> Exercises { get; set; } 
 
     

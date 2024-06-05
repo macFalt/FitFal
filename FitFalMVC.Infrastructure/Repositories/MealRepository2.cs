@@ -15,21 +15,15 @@ public class MealRepository2 : IMealRepository2
     }
 
 
-    public List<Meal> GetMeal(DateTime selectedDate)
+    public List<Meal> GetMeal(DateTime selectedDate,string userId)
     {
         return _context.Meals
             .Where(e => e.Data == selectedDate)
+            .Where(mp => mp.UserId == userId)
             .ToList(); 
     }
 
-    // public List<Product> GetProduct(int mealId)
-    // {
-    //     return _context.MealProducts
-    //         .Where(e => e.MealsId == mealId)
-    //         .Include(e => e.Product)
-    //         .Select(e => e.Product)
-    //         .ToList();    
-    // }
+
     
     public List<Product> GetProduct(int mealId,string userId)
     {
@@ -53,6 +47,7 @@ public class MealRepository2 : IMealRepository2
     
     public int AddMeal(Meal meal)
     {
+        meal.ApplicationUser = _context.ApplicationUsers.Find(meal.UserId);
         _context.Meals.Add(meal);
         _context.SaveChanges();
         return meal.Id;    }
@@ -112,3 +107,15 @@ public class MealRepository2 : IMealRepository2
     }
 }
 
+
+
+
+
+// public List<Product> GetProduct(int mealId)
+// {
+//     return _context.MealProducts
+//         .Where(e => e.MealsId == mealId)
+//         .Include(e => e.Product)
+//         .Select(e => e.Product)
+//         .ToList();    
+// }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitFalMVC.Infrastructure.Repositories
 {
@@ -30,6 +31,8 @@ namespace FitFalMVC.Infrastructure.Repositories
 
         public int AddProduct(Product product)
         {
+            product.ApplicationUser = _context.ApplicationUsers.Find(product.UserId);
+
             _context.Products.Add(product);
             _context.SaveChanges();
             return product.Id;
@@ -56,6 +59,11 @@ namespace FitFalMVC.Infrastructure.Repositories
 
         public void UpdateProduct(Product product)
         {
+            var existingProduct = _context.Products.Local.FirstOrDefault(p => p.Id == product.Id);
+            if (existingProduct != null)
+            {
+                _context.Entry(existingProduct).State = EntityState.Detached;
+            }
             _context.Attach(product);
             _context.Entry(product).Property("Name").IsModified = true;
             _context.Entry(product).Property("Calories").IsModified = true;

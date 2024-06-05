@@ -12,6 +12,9 @@ public class NewMealVm : IMapFrom<Meal>
     public string Name { get; set; }
     
     public DateTime Data { get; set; }
+    
+    public string ApplicationUser { get; set; }
+    public string UserId { get; set; }
 
     public List<ProductForListVm> Products { get; set; } 
     

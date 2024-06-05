@@ -73,20 +73,25 @@
                                     <td>@Html.DisplayFor(modelProduct => calculatedCarbo)</td>
                                     <td>
                                         @Html.ActionLink("Edytuj", "EditGrammage", new { mealId = meal.Id })|
-                                        @Html.ActionLink("Usuń", "Delete", new { id = product.Id ,mealData = startDateValue})
+
+                                        @* @if ((bool)ViewBag.IsAdmin || product.UserId == (string)ViewBag.UserId) *@
+                                        @* { *@
+                                        @*     @Html.ActionLink("Edytuj", "EditGrammage", new { mealId = meal.Id }) *@
+                                        @* } *@
+                                        @Html.ActionLink("Usuń", "Delete", new { id = product.Id, mealData = startDateValue })
                                     </td>
                                 </tr>
                             }
                         }
-                    <tr>
-                                                    <th>Podsumowanie</th>
-                                                    <td></td>
-                                                    <td>@totalCaloriesForMeal Kcal</td>
-                                                    <td>@totalProteinForMeal</td>
-                                                    <td>@totalFatForMeal</td>
-                                                    <td>@totalCarboForMeal</td>
-                                                    <td></td>
-                                                </tr>
+                        <tr>
+                            <th>Podsumowanie</th>
+                            <td></td>
+                            <td>@totalCaloriesForMeal Kcal</td>
+                            <td>@totalProteinForMeal</td>
+                            <td>@totalFatForMeal</td>
+                            <td>@totalCarboForMeal</td>
+                            <td></td>
+                        </tr>
                         <td>
                             <button type="button" onclick="location.href='@Url.Action("DeleteMeal", new { mealId = meal.Id, mealData = startDateValue })'">Usuń Posiłek</button>
                         </td>

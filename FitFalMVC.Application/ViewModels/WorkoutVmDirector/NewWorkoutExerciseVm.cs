@@ -19,6 +19,9 @@ public class NewWorkoutExerciseVm : IMapFrom<WorkoutExercise>
 
     public float Weight { get; set; }
     
+    public string ApplicationUser { get; set; }
+    public string UserId { get; set; }
+    
     public List<ExerciseVmDirector.ExerciseForListVm> Exercises { get; set; } 
 
     

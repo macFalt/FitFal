@@ -32,6 +32,7 @@ builder.Services.AddDbContext<Context>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<Context>();
 
 
@@ -53,13 +54,13 @@ builder.Services.AddTransient<IMealService2, MealService2>();
 builder.Services.AddControllersWithViews().AddFluentValidation();
 builder.Services.AddRazorPages();
 
+
+
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("CanAddNewCustomer", policy =>
-    {
-        policy.RequireClaim("ViewCustomer", "AddNewCustomer");
-    });
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 });
+
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -72,15 +73,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
 });
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("CanEditClient", policy =>
-    {
-        policy.RequireClaim("EditClient");
-        policy.RequireClaim("ShowClient");
-        policy.RequireRole("Admin");
-    });
-});
+
 
 
 builder.Services.AddTransient<IValidator<NewProductVm>, NewProductVm.NewProductValidator>();

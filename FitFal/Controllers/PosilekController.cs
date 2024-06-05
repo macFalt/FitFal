@@ -23,17 +23,7 @@ public class PosilekController : Controller
 
     }
     
-    [Authorize]
-    // public IActionResult Index(DateTime? selectedDate)
-    // {
-    //     if (!selectedDate.HasValue || selectedDate == DateTime.MinValue)
-    //     {
-    //         selectedDate = DateTime.Today;
-    //     }
-    //     var model = _mealService2.GetMeal(selectedDate.Value);
-    //     model.Data = selectedDate.Value;
-    //     return View(model);
-    // }
+
     [Authorize]
     public IActionResult Index(DateTime? selectedDate)
     {
@@ -57,8 +47,16 @@ public class PosilekController : Controller
     }
     
     [HttpPost]
-    public IActionResult AddMealToDay(NewMealVm model)
+    public async Task<IActionResult> AddMealToDay(NewMealVm model)
     {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return RedirectToPage("/Account/Login", new { area = "Identity" }); 
+        }
+        model.UserId = user.Id;
+        
+        
         var id = _mealService2.AddMeal(model);
         DateTime mealDate = model.Data;
 
@@ -83,7 +81,6 @@ public class PosilekController : Controller
             Carbohydrates = product.Carbohydrates,
             Fat = product.Fat,
             Protein = product.Protein
-            
         };
         return View(model);
     }
@@ -110,48 +107,7 @@ public class PosilekController : Controller
             return RedirectToAction("ProductList", new { mealId = model.MealId });
         }
     }
-
-    // [HttpPost]
-    // public IActionResult  AddProductToMeal(NewProductInMealVm model)
-    // {
-    //
-    //     bool productExists = _mealService2.DoesProductExistInMeal(model.MealId, model.ProductId);
-    //
-    //     if (!productExists)
-    //     {
-    //         _mealService2.AddProductToMeal(model);
-    //         var mealDate = _mealService2.GetMealDate(model.MealId);
-    //         return RedirectToAction("Index", new { selectedDate = mealDate });
-    //     }
-    //     else
-    //     {
-    //         TempData["ErrorMessage"] = "Produkt już istnieje w tym posiłku.";
-    //         return RedirectToAction("ProductList", new { mealId = model.MealId });
-    //     }
-    //     
-        // bool productExists = _mealService2.DoesProductExistInMeal(model.MealId, model.ProductId);
-        //
-        // if (!productExists)
-        // {
-        //     _mealService2.AddProductToMeal(model);
-        // }
-        // else
-        // {
-        //     TempData["ErrorMessage"] = "Produkt już istnieje w tym posiłku.";
-        //     var mealDate2 = _mealService2.GetMealDate(model.MealId);
-        //     return RedirectToAction("ProductList", new { selectedDate = mealDate2 });
-        // }
-        //
-        // var mealDate = _mealService2.GetMealDate(model.MealId);
-        // return RedirectToAction("Index", new { selectedDate = mealDate });
-
-        
-        
-        // var id = _mealService2.AddProductToMeal(model);
-        // var mealDate = _mealService2.GetMealDate(model.MealId);
-        // return RedirectToAction("Index", new { selectedDate = mealDate });}
     
-
     [HttpGet]
     public IActionResult ProductList(int mealId)
     {
@@ -192,20 +148,66 @@ public class PosilekController : Controller
     [HttpPost]
     public IActionResult EditGrammage(NewProductInMealVm model)
     {
+        var userId = _userManager.GetUserId(User);
+        model.UserId = userId;
         _mealService2.UpdateProduct(model);
         var mealDate = _mealService2.GetMealDate(model.MealId);
 
         return RedirectToAction("Index", new { selectedDate = mealDate });
     }
-    
-
-  
-    
-    
-    
-    
-    
-    
-    
-    
 }
+
+
+
+// public IActionResult Index(DateTime? selectedDate)
+// {
+//     if (!selectedDate.HasValue || selectedDate == DateTime.MinValue)
+//     {
+//         selectedDate = DateTime.Today;
+//     }
+//     var model = _mealService2.GetMeal(selectedDate.Value);
+//     model.Data = selectedDate.Value;
+//     return View(model);
+
+
+
+
+// [HttpPost]
+// public IActionResult  AddProductToMeal(NewProductInMealVm model)
+// {
+//
+//     bool productExists = _mealService2.DoesProductExistInMeal(model.MealId, model.ProductId);
+//
+//     if (!productExists)
+//     {
+//         _mealService2.AddProductToMeal(model);
+//         var mealDate = _mealService2.GetMealDate(model.MealId);
+//         return RedirectToAction("Index", new { selectedDate = mealDate });
+//     }
+//     else
+//     {
+//         TempData["ErrorMessage"] = "Produkt już istnieje w tym posiłku.";
+//         return RedirectToAction("ProductList", new { mealId = model.MealId });
+//     }
+//     
+// bool productExists = _mealService2.DoesProductExistInMeal(model.MealId, model.ProductId);
+//
+// if (!productExists)
+// {
+//     _mealService2.AddProductToMeal(model);
+// }
+// else
+// {
+//     TempData["ErrorMessage"] = "Produkt już istnieje w tym posiłku.";
+//     var mealDate2 = _mealService2.GetMealDate(model.MealId);
+//     return RedirectToAction("ProductList", new { selectedDate = mealDate2 });
+// }
+//
+// var mealDate = _mealService2.GetMealDate(model.MealId);
+// return RedirectToAction("Index", new { selectedDate = mealDate });
+
+        
+        
+// var id = _mealService2.AddProductToMeal(model);
+// var mealDate = _mealService2.GetMealDate(model.MealId);
+// return RedirectToAction("Index", new { selectedDate = mealDate });}

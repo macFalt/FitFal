@@ -4,7 +4,7 @@ namespace FitFalMVC.Domain.Interfaces;
 
 public interface IMealRepository2
 {
-    List<Meal> GetMeal(DateTime selectedDate);
+    List<Meal> GetMeal(DateTime selectedDate,string userId);
     // List<MealProduct> GetProduct(int mealId);
 
     // List<Product> GetProduct(int mealId);

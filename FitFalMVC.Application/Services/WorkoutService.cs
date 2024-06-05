@@ -20,15 +20,15 @@ public class WorkoutService : IWorkoutService
         _mapper = mapper;
     }
     
-    public WorkoutDetailVm GetWorkout(DateTime selectedDate)
+    public WorkoutDetailVm GetWorkout(string userId, DateTime selectedDate)
     {
-        var workout = _workoutRepo.GetWorkout(selectedDate);
+        var workout = _workoutRepo.GetWorkout(selectedDate, userId);
         if (workout == null)
         {
             return new WorkoutDetailVm();
         }
     
-        var exercises = _workoutRepo.GetExercises(workout.Id);
+        var exercises = _workoutRepo.GetExercises(workout.Id, userId);
         var workoutVm = _mapper.Map<WorkoutDetailVm>(workout);
     
         if (exercises != null && exercises.Any())

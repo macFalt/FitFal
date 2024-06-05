@@ -134,6 +134,10 @@ namespace FitFalMVC.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
@@ -141,7 +145,13 @@ namespace FitFalMVC.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Meals");
                 });
@@ -196,6 +206,10 @@ namespace FitFalMVC.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<float>("Calories")
                         .HasColumnType("real");
 
@@ -212,7 +226,13 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.Property<float>("Protein")
                         .HasColumnType("real");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Products");
                 });
@@ -225,6 +245,10 @@ namespace FitFalMVC.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -235,7 +259,13 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.Property<DateTime>("StartWorkout")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Workouts");
                 });
@@ -415,6 +445,17 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FitFalMVC.Domain.Model.Meal", b =>
+                {
+                    b.HasOne("FitFalMVC.Domain.Model.ApplicationUser", "ApplicationUser")
+                        .WithMany("Meals")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("FitFalMVC.Domain.Model.MealProduct", b =>
                 {
                     b.HasOne("FitFalMVC.Domain.Model.ApplicationUser", "ApplicationUser")
@@ -426,13 +467,13 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.HasOne("FitFalMVC.Domain.Model.Meal", "Meal")
                         .WithMany("MealProducts")
                         .HasForeignKey("MealId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FitFalMVC.Domain.Model.Product", "Product")
                         .WithMany("MealProducts")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
@@ -440,6 +481,28 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.Navigation("Meal");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("FitFalMVC.Domain.Model.Product", b =>
+                {
+                    b.HasOne("FitFalMVC.Domain.Model.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("FitFalMVC.Domain.Model.Workout", b =>
+                {
+                    b.HasOne("FitFalMVC.Domain.Model.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("FitFalMVC.Domain.Model.WorkoutExercise", b =>
@@ -453,13 +516,13 @@ namespace FitFalMVC.Infrastructure.Migrations
                     b.HasOne("FitFalMVC.Domain.Model.Exercise", "Exercise")
                         .WithMany("WorkoutExercises")
                         .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FitFalMVC.Domain.Model.Workout", "Workouts")
                         .WithMany("WorkoutExercises")
                         .HasForeignKey("WorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
@@ -523,6 +586,8 @@ namespace FitFalMVC.Infrastructure.Migrations
             modelBuilder.Entity("FitFalMVC.Domain.Model.ApplicationUser", b =>
                 {
                     b.Navigation("MealProducts");
+
+                    b.Navigation("Meals");
 
                     b.Navigation("WorkoutExercises");
                 });

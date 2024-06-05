@@ -12,4 +12,6 @@ public class ApplicationUser: IdentityUser
     public ICollection<MealProduct> MealProducts { get; set; }
     
     public ICollection<WorkoutExercise> WorkoutExercises { get; set; }
+    
+    public ICollection<Meal> Meals { get; set; }
 }

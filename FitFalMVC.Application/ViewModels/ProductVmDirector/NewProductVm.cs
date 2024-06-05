@@ -18,6 +18,10 @@ public class NewProductVm : IMapFrom<FitFalMVC.Domain.Model.Product>
     public float Fat { get; set; }
 
     public float Carbohydrates { get; set; }
+
+    public string UserId { get; set; }
+
+    public string ApplicationUser { get; set; }
     
     public void ConfigureMapping(Profile profile)
     {

@@ -13,4 +13,6 @@ public interface IProductService
     NewProductVm GetproductForEdit(int id);
     void UpdateProduct(NewProductVm model);
     void DeleteProduct(int id);
+    bool CanUserEditProduct(int productId, string userId, bool isAdmin);
+
 }

@@ -12,6 +12,10 @@ public class Workout
     public DateTime StartWorkout { get; set; }
 
     public DateTime EndWorkout { get; set; }
+    
+    public string UserId { get; set; }
+    
+    public ApplicationUser ApplicationUser { get; set; }
 
     public ICollection<WorkoutExercise> WorkoutExercises { get; set; }
     

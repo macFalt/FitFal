@@ -19,6 +19,8 @@ public class ProductForListVm : IMapFrom<Product>
     public float Fat { get; set; }
 
     public float Carbohydrates { get; set; }
+    // public string UserId { get; set; }
+
     
 
     public void ConfigureMapping(Profile profile)

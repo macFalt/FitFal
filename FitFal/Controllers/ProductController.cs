@@ -1,6 +1,9 @@
 using FitFalMVC.Application.Interfaces;
 using FitFalMVC.Application.Services;
 using FitFalMVC.Application.ViewModels.ProductVmDirector;
+using FitFalMVC.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitFal.Controllers;
@@ -8,20 +11,28 @@ namespace FitFal.Controllers;
 public class ProductController : Controller
 {
     private readonly IProductService _productService;
-    
-    public ProductController(IProductService productService)
+    private readonly UserManager<ApplicationUser> _userManager;
+
+
+    public ProductController(IProductService productService, UserManager<ApplicationUser> userManager)
     {
         _productService = productService;
+        _userManager = userManager;
     }
+
     [HttpGet]
     public IActionResult Index()
     {
-        var model = _productService.GetAllProductForList(10,1,"");
+        var model = _productService.GetAllProductForList(10, 1, "");
+        var userId = _userManager.GetUserId(User);
+        var isAdmin = User.IsInRole("Admin");
+        ViewBag.IsAdmin = isAdmin;
+        ViewBag.UserId = userId;
         return View(model);
-        
     }
+
     [HttpPost]
-    public IActionResult Index(int pageSize,int? pageNo,string searchString)
+    public IActionResult Index(int pageSize, int? pageNo, string searchString)
     {
         if (!pageNo.HasValue)
         {
@@ -30,11 +41,11 @@ public class ProductController : Controller
 
         if (searchString is null)
         {
-            searchString=String.Empty;
+            searchString = String.Empty;
         }
-        var model = _productService.GetAllProductForList(pageSize,pageNo.Value,searchString);
+
+        var model = _productService.GetAllProductForList(pageSize, pageNo.Value, searchString);
         return View(model);
-        
     }
 
 
@@ -44,52 +55,45 @@ public class ProductController : Controller
         return View(model);
     }
 
+    [Authorize]
     [HttpGet]
     public IActionResult AddProduct()
     {
         return View(new NewProductVm());
     }
 
+    [Authorize]
     [HttpPost]
     public IActionResult AddProduct(NewProductVm model)
     {
-        var validator = new NewProductVm.NewProductValidator();
-        var validationResult = validator.Validate(model);
-        if (!validationResult.IsValid)
-        {
-            foreach (var error in validationResult.Errors)
-            {
-                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-            }
-            return View(model);
-        }
-        
+        var userId = _userManager.GetUserId(User);
+        model.UserId = userId;
         var id = _productService.AddProduct(model);
         return RedirectToAction("Index");
     }
-    
-    
+
+
     [HttpGet]
-    public IActionResult EditProduct(int id)
+    public async Task<IActionResult> EditProduct(int id)
     {
+        // var userId = _userManager.GetUserId(User);
+        // var isAdmin = User.IsInRole("Admin");
+
+        // if (!_productService.CanUserEditProduct(id, userId, isAdmin))
+        // {
+        //     return Unauthorized();
+        // }
+
         var product = _productService.GetproductForEdit(id);
         return View(product);
     }
 
+
     [HttpPost]
     public IActionResult EditProduct(NewProductVm model)
     {
-        var validator = new NewProductVm.NewProductValidator();
-        var validationResult = validator.Validate(model);
-        if (!validationResult.IsValid)
-        {
-            foreach (var error in validationResult.Errors)
-            {
-                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-            }
-            return View(model);
-        }
-        
+        var userId = _userManager.GetUserId(User);
+        model.UserId = userId;
         _productService.UpdateProduct(model);
         return RedirectToAction("Index");
     }
