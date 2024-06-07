@@ -52,15 +52,37 @@ public class MealRepository2 : IMealRepository2
         _context.SaveChanges();
         return meal.Id;    }
 
+    // public void DeleteMeal(int mealid)
+    // {
+    //     var meal = _context.Meals.Find(mealid);
+    //     if (meal!=null)
+    //     {
+    //         _context.Meals.Remove(meal);
+    //         _context.SaveChanges();
+    //     }  
+    // }
+    
+    
     public void DeleteMeal(int mealid)
     {
+        // Najpierw usuń powiązane rekordy z tabeli MealProducts
+        var mealProducts = _context.MealProducts.Where(mp => mp.MealsId == mealid).ToList();
+        if (mealProducts.Any())
+        {
+            _context.MealProducts.RemoveRange(mealProducts);
+        }
+
+        // Następnie usuń rekord z tabeli Meals
         var meal = _context.Meals.Find(mealid);
-        if (meal!=null)
+        if (meal != null)
         {
             _context.Meals.Remove(meal);
-            _context.SaveChanges();
-        }  
+        }
+
+        // Zapisz zmiany w bazie danych
+        _context.SaveChanges();
     }
+
 
     public int AddProduct(MealProduct prod)
     {

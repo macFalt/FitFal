@@ -96,14 +96,29 @@ public class WorkoutRepository : IWorkoutRepository
 
     }
 
+    // public void DeleteWorkout(int workoutid)
+    // {
+    //     var workout = _context.Workouts.Find(workoutid);
+    //     if (workout!=null)
+    //     {
+    //         _context.Workouts.Remove(workout);
+    //         _context.SaveChanges();
+    //     }       
+    // }
+    
     public void DeleteWorkout(int workoutid)
     {
+        var workoutDetails = _context.WorkoutExercises.Where(wd => wd.WorkoutId == workoutid).ToList();
+        if (workoutDetails.Any())
+        {
+            _context.WorkoutExercises.RemoveRange(workoutDetails);
+        }
         var workout = _context.Workouts.Find(workoutid);
-        if (workout!=null)
+        if (workout != null)
         {
             _context.Workouts.Remove(workout);
-            _context.SaveChanges();
-        }       
+        }
+        _context.SaveChanges();
     }
 
     public int AddExercise(WorkoutExercise exer)

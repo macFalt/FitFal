@@ -55,6 +55,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
+    <Folder Include="Logo\" />
     <Folder Include="Pages\" />
     <Folder Include="Views\DataPicker\" />
   </ItemGroup>

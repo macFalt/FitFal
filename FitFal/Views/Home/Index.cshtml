@@ -1,9 +1,33 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - FitFal</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+</head>
+<body>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <h1 class="display-4">Najlepsze plany dietetyczne i treningowe</h1>
+    <p>FitFal to kompleksowa aplikacja, która umożliwia użytkownikom planowanie i monitorowanie ich diety oraz treningu w sposób efektywny i zorganizowany. Nasza platforma integruje zaawansowane narzędzia do planowania posiłków i treningów, umożliwiając użytkownikom osiągnięcie ich celów fitnessowych.</p>
+    @* <h2>Dzięki naszemu dziennikowi treningowemu planowanie treningów staje się czystą przyjemnością. </h2> *@
+    @* <img src="~/Images/Gym.jpg" alt="Gym"/> *@
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <h2 style="margin-right: 20px; width: auto;">Dzięki naszemu dziennikowi treningowemu planowanie treningów staje się czystą przyjemnością.</h2>
+        <img src="~/Images/Gym2.jpg" alt="Gym" style="width: 400px; height: 400px;">
+    </div>
 
+    <p>Z łatwością zapiszesz swoje osiągnięcia, co pomoże Ci w dalszym progresowaniu i osiąganiu nowych celów. Śledzenie postępów jeszcze nigdy nie było tak proste i motywujące. Wzbogać swoje treningi o narzędzie, które wspiera Twój rozwój każdego dnia!</p>
+    <img src="~/Images/Dieta.png" alt="FitFal Dieta"/>
+    <div style="display: flex; align-items: center;">
+        <img src="~/Images/Diet.jpg" alt="FitFal Diet" style="width: 400px; height: 400px;">
+        <h2 style="margin-left: 20px; width: auto;">Układanie diety nigdy nie było tak proste.</h2>
+    </div>
+
+    @* <h2>Układanie diety nigdy nie było tak proste.</h2> *@
+    @* <img src="~/Images/Diet.jpg" alt="FitFal Diet"/> *@
+    <p> Dzięki nam możesz schudnąć, utrzymać wagę lub zbudować masę mięśniową. Oferujemy narzędzia i wskazówki, które pozwolą Ci samodzielnie stworzyć spersonalizowany plan żywieniowy, dostosowany do Twoich indywidualnych potrzeb i celów. Z nami osiągniesz wymarzoną sylwetkę w zdrowy i efektywny sposób.</p>
+    <img src="~/Images/Trening.png" alt="FitFal trening"/>
+</div>
+</body>
+</html>
