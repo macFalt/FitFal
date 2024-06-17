@@ -24,6 +24,8 @@ namespace FitFalMVC.Infrastructure
         public DbSet<Workout> Workouts { get; set; }
         
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
+        
+        public DbSet<Post> Posts { get; set; }
 
 
 
