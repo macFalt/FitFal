@@ -4,6 +4,7 @@ namespace FitFalMVC.Domain.Interfaces;
 
 public interface IPostRepository
 {
-    IQueryable<Post> GetPost();
-
+    IQueryable<Post> GetAllPost();
+    int AddPost(Post post);
+    Post GetDetail(int id);
 }

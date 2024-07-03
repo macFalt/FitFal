@@ -49,7 +49,8 @@ builder.Services.AddTransient<IWorkoutRepository, WorkoutRepository>();
 builder.Services.AddTransient<IWorkoutService, WorkoutService>();
 builder.Services.AddTransient<IMealRepository2, MealRepository2>();
 builder.Services.AddTransient<IMealService2, MealService2>();
-
+builder.Services.AddTransient<IPostRepository, PostRepository>();
+builder.Services.AddTransient<IPostService, PostService>();
 
 builder.Services.AddControllersWithViews().AddFluentValidation();
 builder.Services.AddRazorPages();

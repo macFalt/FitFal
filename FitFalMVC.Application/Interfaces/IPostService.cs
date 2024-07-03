@@ -5,6 +5,7 @@ namespace FitFalMVC.Application.Interfaces;
 
 public interface IPostService
 {
-    IQueryable<Post> GetAllPostForList();
-
+    ListPost GetAllPostForList(int pageSize,int pageNO,string searchString);
+    int AddPost(NewPostVm model);
+    PostDetailVm GetPostDetail(int id);
 }
