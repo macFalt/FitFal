@@ -1,0 +1,64 @@
+@model FitFalMVC.Application.ViewModels.PostVmDirector.NewPostVm
+
+
+
+
+@{
+    ViewBag.Title = "Dodaj Post";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddPost" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="Id"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label">Tytuł</label>
+                <input asp-for="Title" class="form-control"/>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label">Treść</label>
+                <textarea asp-for="Content" class="form-control" rows="10"></textarea> 
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageContent" class="control-label">Zdjęcie</label>
+                <input asp-for="ImageContent" type="file" class="form-control"/> 
+                <span asp-validation-for="ImageContent" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Dodaj" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* @section Scripts { *@
+@*     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); } *@
+@* } *@
+
+
+
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            ClassicEditor
+                .create(document.querySelector('textarea[name="Content"]'))
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
+}

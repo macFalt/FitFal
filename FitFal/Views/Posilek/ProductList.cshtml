@@ -1,0 +1,135 @@
+@model FitFalMVC.Application.ViewModels.ProductVmDirector.ListProductForListVM
+
+@{
+    ViewBag.Title = "Baza produktów";
+    Layout = "_Layout";
+}
+
+<h1>Baza produktów</h1>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<form asp-action="ProductList" asp-controller="Posilek" method="get">
+    <div class="row">
+        <input type="text" asp-for="SearchString" name="searchString" id="searchString" value="@Model.SearchString"/>
+        <input type="hidden" name="mealId" value="@ViewBag.MealId"/> 
+        <input type="submit" value="Wyszukaj"/>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelProduct => product.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Dodaj", "AddProductToMeal", new { mealId = @ViewBag.MealId, productId = @product.Id })
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <ul class="pagination">
+            @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="ProductList"
+                       asp-route-mealId="@ViewBag.MealId"
+                       asp-route-pageNo="@i"
+                       asp-route-pageSize="@Model.PageSize"
+                       asp-route-searchString="@Model.SearchString">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</form>
+
+@* *@
+@* <form asp-action="ProductList" asp-controller="Posilek" method="post"> *@
+@*     <div class="row"> *@
+@*         <input type="text" asp-for="SearchString" name="searchString" id="searchString"/> *@
+@*         <input type="submit" value="Wyszukaj"/> *@
+@*     </div> *@
+@*     <div class="row"> *@
+@*         <table class="table"> *@
+@*             <thead> *@
+@*             <tr> *@
+@*                 <th> *@
+@*                     Nazwa *@
+@*                 </th> *@
+@*                 <th></th> *@
+@*             </tr> *@
+@*             </thead> *@
+@*             <tbody> *@
+@* @foreach (var product in Model.Products) *@
+@* { *@
+@*     <tr> *@
+@*         <td> *@
+@*             @Html.DisplayFor(modelProduct => product.Name) *@
+@*         </td> *@
+@*         <td> *@
+@*             @Html.ActionLink("Dodaj", "AddProductToMeal", new { mealId = @ViewBag.MealId,productId=@product.Id }) *@
+@* *@
+@*             $1$ <form asp-action="AddProductToMeal" asp-controller="Posilek" method="post"> #1# *@
+@*             $1$     <input type="hidden" name="mealId" value="@ViewBag.MealId"/> #1# *@
+@*             $1$     <input type="hidden" name="productId" value="@product.Id"/> #1# *@
+@*             $1$     <input type="submit" value="Dodaj"/> #1# *@
+@*             $1$ </form> #1# *@
+@*         </td> *@
+@*     </tr> *@
+@* } *@
+@*             </tbody> *@
+@*         </table> *@
+@* *@
+@*     </div> *@
+@*     <div class="row"> *@
+@*         <table> *@
+@*             <tr> *@
+@*                 @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++) *@
+@*                 { *@
+@*                     <td> *@
+@*                         @if (i != Model.CurrentPage) *@
+@*                         { *@
+@*                             <a href="javascript:PagerClick(@i)">@i</a> *@
+@*                         } *@
+@*                         else *@
+@*                         { *@
+@*                             <span>@i</span> *@
+@*                         } *@
+@*                     </td> *@
+@*                 } *@
+@*             </tr> *@
+@*         </table> *@
+@*         <input type="hidden" name="pageNo" id="pageNo"></input> *@
+@*         <input type="hidden" name="pageSize" id="pageSize" value="10"></input> *@
+@*     </div> *@
+@* </form> *@
+@* *@
+@* @section Scripts *@
+@* { *@
+@*     <script type="text/javascript"> *@
+@*         function PagerClick(index) *@
+@*         { *@
+@*             document.getElementById("pageNo").value=index; *@
+@*             document.forms[0].submit(); *@
+@*         } *@
+@*     </script> *@
+@* } *@
